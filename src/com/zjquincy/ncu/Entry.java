@@ -97,7 +97,6 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
                 String correct_password = results.getString("password");
                 String encrypted_password = loginRequest.getEncryptedPassword(timestamp);
                 if (encrypted_password.equalsIgnoreCase(correct_password)) {//密码正确，登录成功
-                    results = statement.executeQuery(String.format("SELECT * FROM user WHERE username=\"%s\"", loginRequest.getUsername()));
                     User user = new User(loginRequest.getUsername(), results.getInt("level"));
                     sendResponse(exchange, new LoginResponse(user)); //把用户信息一并返回给客户端
                 } else {//密码错误
@@ -124,6 +123,7 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
                 PreparedStatement sql = connection.prepareStatement("INSERT INTO visitor VALUES(?,?,?)");
                 //PreparedStatement填充数据模板，可以用来填充不方便用文本表示的数据，索引从1开始
                 //visitor视图的结构是(用户名,时间戳,密码)，防止用户修改等级
+                //public用户对user表只有SELECT权限，而对visitor视图还有INSERT权限
                 sql.setString(1, registerRequest.getUsername());
                 sql.setTimestamp(2, timestamp);
                 sql.setString(3, encrypted_password);
@@ -171,6 +171,8 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
                 }
                 QueryResponse response = new QueryResponse(staffList, departmentList);
                 sendResponse(exchange, response);
+                statement.close();
+                connection.close();
             }
         } catch (SQLException e) {
             sendResponse(exchange, new QueryResponse(false));

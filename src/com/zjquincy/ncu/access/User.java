@@ -29,6 +29,8 @@ public class User {
             return null;//无此用户
         }
         int level = results.getInt("level");
+        statement.close();
+        connection.close();
         return new User(username, level);
     }
 
