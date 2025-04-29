@@ -1,18 +1,28 @@
 package com.zjquincy.ncu.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Staff {
+    @SerializedName("id")
     final private int id;
+    @SerializedName("name")
     final private String name;
-    final private char gender;
+    @SerializedName("gender")
+    final private String gender;
+    @SerializedName("birthday")
     final private Date birthday;
+    @SerializedName("telephone")
     final private String telephone;
-    final private String department;
+    @SerializedName("department")
+    final private int department;
+    @SerializedName("position")
     final private String position;
+    @SerializedName("salary")
     final private double salary;
 
-    public Staff(int id, String name, char gender, Date birthday, String telephone, String department, String position, double salary) {
+    public Staff(int id, String name, String gender, Date birthday, String telephone, int department, String position, double salary) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -23,38 +33,6 @@ public class Staff {
         this.salary = salary;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return id == ((Staff) obj).id;
@@ -62,7 +40,7 @@ public class Staff {
 
     @Override
     public String toString() {
-        return String.format("%d号员工%s，%c，出生于%s，联系电话为%s，是%s%s，月薪%f",
+        return String.format("%d号员工%s，%s，出生于%s，联系电话为%s，是%d%s，月薪%f",
                 id, name, gender, birthday, telephone, department, position, salary);
     }
 }

@@ -4,9 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Verification {
-
-    private String convertSHA256(String input) {
+public class SHA256 {
+    public static String convert(String input) {
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
@@ -24,5 +23,4 @@ public class Verification {
         }
         return builder.toString();
     }
-
 }
