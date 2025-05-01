@@ -16,7 +16,6 @@ import com.zjquincy.ncu.net.response.AbstractResponse;
 import com.zjquincy.ncu.net.response.LoginResponse;
 import com.zjquincy.ncu.net.response.QueryResponse;
 import com.zjquincy.ncu.net.response.RegisterResponse;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
