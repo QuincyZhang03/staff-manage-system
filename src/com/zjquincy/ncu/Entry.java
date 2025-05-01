@@ -7,6 +7,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.zjquincy.ncu.access.User;
+import com.zjquincy.ncu.blockchain.BlockChain;
+import com.zjquincy.ncu.blockchain.BlockChainUtility;
 import com.zjquincy.ncu.data.Department;
 import com.zjquincy.ncu.data.Staff;
 import com.zjquincy.ncu.net.request.*;
@@ -25,9 +27,13 @@ import java.util.ArrayList;
 
 import static com.zjquincy.ncu.Entry.*;
 
+
+//TODO:普通管理员增删改请求、超级管理员更改用户等级的请求的处理和上链，以及对超级管理员验证区块链完整性请求的处理
 public class Entry {
     private static final int PORT = 23456;
     public static final String DB_URL = "jdbc:mysql://localhost:3306/staff";
+    public static final String BLOCKCHAIN_DIR = "history";
+    public static final String ENCRYPT_KEY = "zjQuincy20030506";//AES加密密钥必须是16字节、24字节或32字节。必须保密。
     public static final String VISITOR_USERNAME = "public";//公开账号，用于核验身份
     public static final String VISITOR_PASSWORD = "123456";
     public static final String DEFAULT_USERNAME = "default";//普通用户
@@ -37,6 +43,7 @@ public class Entry {
     public static final String ADMIN_USERNAME = "admin";//超级管理员
     public static final String ADMIN_PASSWORD = "123456";
     public static Gson gson = new Gson();
+    private static BlockChain blockChain;
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
@@ -44,6 +51,8 @@ public class Entry {
         server.setExecutor(null);//使用默认线程池
         server.start();
         System.out.printf("管理系统服务器启动成功！开始监听于localhost:%d\n", PORT);
+        blockChain = BlockChainUtility.readBlockChain(BLOCKCHAIN_DIR);
+        System.out.println("区块链数据读取完成。");
     }
 }
 
@@ -69,10 +78,10 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
         JsonObject json_type = JsonParser.parseString(json_request).getAsJsonObject();
         String request_type_raw = json_type.get("request_type").getAsString();//获取请求类型
         AbstractRequest.RequestType request_type = AbstractRequest.convertType(request_type_raw);
+        if (request_type == AbstractRequest.RequestType.UNKNOWN) {
+            throw new IllegalRequestException("未知的请求类型：" + request_type_raw);
+        }
         if (exchange.getRequestMethod().equalsIgnoreCase("POST")) {//处理客户端发来的POST请求
-            if (request_type == AbstractRequest.RequestType.UNKNOWN) {
-                throw new IllegalRequestException("未知的请求类型：" + request_type_raw);
-            }
             if (request_type == AbstractRequest.RequestType.LOGIN) {//处理登录请求
                 handleLogin(exchange, gson.fromJson(json_request, LoginRequest.class));//完整解析出一个LoginRequest对象来
             } else if (request_type == AbstractRequest.RequestType.REGISTER) {//处理注册请求

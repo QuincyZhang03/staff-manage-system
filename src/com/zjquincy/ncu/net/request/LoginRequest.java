@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 /*
  * 登录请求Json格式：
- * String request_type = "login"
+ * String request_type = "LOGIN"
  * String username 用户名
  * String input_password 输入的密码
  * */

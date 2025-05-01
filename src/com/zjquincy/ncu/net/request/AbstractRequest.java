@@ -9,12 +9,10 @@ public abstract class AbstractRequest {
     }
 
     public static RequestType convertType(String raw) {
-        if (raw.equalsIgnoreCase("login"))
-            return RequestType.LOGIN;
-        if (raw.equalsIgnoreCase("register"))
-            return RequestType.REGISTER;
-        if (raw.equalsIgnoreCase("query"))
-            return RequestType.QUERY;
-        return RequestType.UNKNOWN;
+        try {
+            return RequestType.valueOf(raw);
+        } catch (IllegalArgumentException e) {
+            return RequestType.UNKNOWN;
+        }
     }
 }

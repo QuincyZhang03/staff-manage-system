@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 /*
  * 注册请求格式：
- * String request_type = "register"
+ * String request_type = "REGISTER"
  * String username 用户名
  * String input_password 密码明文
  * */
