@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /*
  * 查询响应格式：
- * String response_type = "query"
+ * String response_type = "QUERY"
  * boolean isSuccess 是否成功
  * Json staff 成功返回职工List，失败无该字段
  * Json department 成功返回部门List，失败无该字段
@@ -22,7 +22,7 @@ public class QueryResponse extends AbstractResponse {
     private ArrayList<Department> department;
 
     public QueryResponse(boolean isSuccess) {
-        response_type = "query";
+        response_type = "QUERY";
         this.isSuccess = isSuccess;
     }
 

@@ -1,8 +1,9 @@
 package com.zjquincy.ncu.data;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Objects;
 
-public class Department {
+public class Department implements IData {
     @SerializedName("id")
     final private int id;
     @SerializedName("name")
@@ -14,7 +15,7 @@ public class Department {
     }
 
     @Override
-    public String toString() {
-        return String.format("%d号部门%s",id,name);
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
