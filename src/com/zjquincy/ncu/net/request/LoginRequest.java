@@ -1,8 +1,13 @@
 package com.zjquincy.ncu.net.request;
 
 import com.google.gson.annotations.SerializedName;
-import com.zjquincy.ncu.access.SHA256;
-import java.sql.Timestamp;
+import com.sun.net.httpserver.HttpExchange;
+import com.zjquincy.ncu.access.PasswordVerifier;
+import com.zjquincy.ncu.access.User;
+import com.zjquincy.ncu.net.NetUtility;
+import com.zjquincy.ncu.net.response.LoginResponse;
+import java.io.IOException;
+import java.sql.SQLException;
 
 /*
  * 登录请求Json格式：
@@ -16,13 +21,25 @@ public class LoginRequest extends AbstractRequest {
     @SerializedName("input_password")
     private String input_password;
 
-    public String getUsername() {
-        return username;
-    }
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        try {
+            PasswordVerifier.Result result = PasswordVerifier.verifyPassword(username, input_password);
+            if (result.getType() == PasswordVerifier.ResultType.NO_SUCH_USER) {//无此用户
+                NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.NO_SUCH_USER));
+            } else {//用户名存在，则现场对用户输入信息按照“用户名@时间戳@密码明文”的格式使用SHA-256加密，比对结果
+                if (result.getType()== PasswordVerifier.ResultType.CORRECT) {//密码正确，登录成功
+                    User user = result.getUser();
+                    NetUtility.sendResponse(exchange, new LoginResponse(user)); //把用户信息一并返回给客户端
+                } else {//密码错误
+                    NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.WRONG_PASSWORD));
+                }
+            }
+        } catch (SQLException e) {
+            NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.ERROR));
+            throw new RuntimeException("服务器端执行数据库操作出现异常：" + e.getMessage());
 
-    public String getEncryptedPassword(Timestamp timestamp) {
-        return SHA256.convert(String.format("%s@%s@%s", username, timestamp, input_password));
-        //按照“用户名@时间戳@密码明文”的格式，以SHA256方式加密
+        }
     }
 }
 
