@@ -13,13 +13,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import static com.zjquincy.ncu.Entry.DB_URL;
-
+/*
+ * 查询请求格式：
+ * String request_type = "QUERY"
+ * String username 用户名
+ * */
 public class QueryRequest extends AbstractRequest{
-    /*
-     * 查询请求格式：
-     * String request_type = "QUERY"
-     * String username 用户名
-     * */
+
     @SerializedName("username")
     private String username;
 

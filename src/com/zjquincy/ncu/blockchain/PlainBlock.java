@@ -1,12 +1,16 @@
 package com.zjquincy.ncu.blockchain;
 
+import com.zjquincy.ncu.data.IData;
+
+import java.util.List;
 import java.util.Objects;
 
 public class PlainBlock extends Block {
 
-    private final Transaction<?> message;//区块中的数据
+    private final List<Transaction<IData>> message;
+    //区块中的数据，可以有若干个事务。官方库的列表已经重写过hashCode方法，可以保证只要元素不变，哈希值就不变。
 
-    public PlainBlock(long timestamp, String prev, Transaction<?> message) {
+    public PlainBlock(long timestamp, String prev, List<Transaction<IData>> message) {
         prevBlockIdentifier = prev;
         this.timestamp = timestamp;
         this.message = message;

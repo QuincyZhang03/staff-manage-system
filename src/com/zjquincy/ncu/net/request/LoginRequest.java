@@ -38,7 +38,6 @@ public class LoginRequest extends AbstractRequest {
         } catch (SQLException e) {
             NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.ERROR));
             throw new RuntimeException("服务器端执行数据库操作出现异常：" + e.getMessage());
-
         }
     }
 }

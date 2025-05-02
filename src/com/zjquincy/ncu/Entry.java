@@ -13,11 +13,11 @@ import com.zjquincy.ncu.net.request.IllegalRequestException;
 import com.zjquincy.ncu.net.NetUtility;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.text.DateFormat;
+import java.util.Date;
 
 import static com.zjquincy.ncu.Entry.gson;
 
-
-//TODO:普通管理员增删改请求、超级管理员更改用户等级的请求的处理和上链，以及对超级管理员验证区块链完整性请求的处理
 public class Entry {
     private static final int PORT = 23456;
     public static final String DB_URL = "jdbc:mysql://localhost:3306/staff";
@@ -32,7 +32,7 @@ public class Entry {
     public static final String ADMIN_USERNAME = "admin";//超级管理员
     public static final String ADMIN_PASSWORD = "123456";
     public static Gson gson = new Gson();
-    private static BlockChain blockChain;
+    public static BlockChain blockChain;
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
@@ -55,9 +55,12 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
         //将请求类型字符串转换为Class类对象，用于反序列化
         if (request_type == null) {
             throw new IllegalRequestException("未知的请求类型：" + request_type_raw);
+        } else {
+            DateFormat dateFormat=DateFormat.getDateTimeInstance();
+            System.out.printf("[消息 %s] 接收到请求，类型为：%s\n", dateFormat.format(new Date()), request_type.getSimpleName());
+            AbstractRequest request = gson.fromJson(json_request, request_type);
+            //把Json反序列化为请求对象，具体的处理逻辑位于各自类的handle()方法里，这是多态的使用。
+            request.handle(exchange);
         }
-        AbstractRequest request = gson.fromJson(json_request, request_type);
-        //把Json反序列化为请求对象，具体的处理逻辑位于各自类的handle()方法里，这是多态的使用。
-        request.handle(exchange);
     }
 }

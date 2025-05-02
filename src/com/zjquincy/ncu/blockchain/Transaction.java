@@ -1,10 +1,9 @@
 package com.zjquincy.ncu.blockchain;
 
-import com.zjquincy.ncu.data.IData;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Transaction<T extends IData> implements Serializable {
+public class Transaction<IData> implements Serializable {
     //抽象事务类型，其中T为操作的数据类型，在本项目中可以为Staff或Department
     public enum TransactionType {
         CREATE,
@@ -13,10 +12,10 @@ public class Transaction<T extends IData> implements Serializable {
     }
 
     private final TransactionType type;
-    private final T prevData;//修改前的数据
-    private final T afterData;//修改后的数据
+    private final IData prevData;//修改前的数据
+    private final IData afterData;//修改后的数据
 
-    public Transaction(TransactionType type, T prevData, T afterData) {
+    public Transaction(TransactionType type, IData prevData, IData afterData) {
         this.type = type;
         this.prevData = prevData;
         this.afterData = afterData;

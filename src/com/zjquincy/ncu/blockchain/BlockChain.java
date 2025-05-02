@@ -1,6 +1,8 @@
 package com.zjquincy.ncu.blockchain;
 
 import com.zjquincy.ncu.Entry;
+import com.zjquincy.ncu.data.IData;
+import java.util.List;
 import java.util.HashMap;
 
 public class BlockChain {
@@ -15,9 +17,10 @@ public class BlockChain {
         data.put(block.getIdentifier(), block);
     }
 
-    public void add(Transaction<?> message) {
+    public void add(List<Transaction<IData>> message) {
         PlainBlock block = new PlainBlock(System.currentTimeMillis(), genesis.prevBlockIdentifier, message);
         genesis.prevBlockIdentifier = block.getIdentifier();
+        loadBlock(block);
         BlockChainUtility.writeBlock(block, Entry.BLOCKCHAIN_DIR);//把新区块写进文件
         BlockChainUtility.writeBlock(genesis, Entry.BLOCKCHAIN_DIR);//更新创世区块
     }

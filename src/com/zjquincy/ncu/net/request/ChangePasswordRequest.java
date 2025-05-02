@@ -37,8 +37,7 @@ public class ChangePasswordRequest extends AbstractRequest {
             } else {//旧密码正确，执行修改密码操作
                 User user = result.getUser();
                 Connection connection = DriverManager.getConnection(DB_URL, user.getDBUsername(), user.getDBPassword());
-                Timestamp timestamp = result.getTimestamp();
-                String encryptedPassword = PasswordVerifier.getEncryptedPassword(username, timestamp, new_password);
+                String encryptedPassword = PasswordVerifier.getEncryptedPassword(username, result.getUser().getTimestamp(), new_password);
                 PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE username=?");
                 statement.setString(1, encryptedPassword);
                 statement.setString(2, username);

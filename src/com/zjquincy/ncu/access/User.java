@@ -1,6 +1,7 @@
 package com.zjquincy.ncu.access;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.sql.*;
 
 import static com.zjquincy.ncu.Entry.*;
@@ -15,9 +16,12 @@ public class User {
     @SerializedName("level")
     private int level;
 
-    public User(String username, int level) {
+    private final transient Timestamp timestamp; //transient字段会被gson忽略，不会被发送给客户端
+
+    public User(String username, int level, Timestamp timestamp) {
         this.username = username;
         this.level = level;
+        this.timestamp = timestamp;
     }
 
     public static User fetchUser(String username) throws SQLException {
@@ -28,9 +32,10 @@ public class User {
             return null;//无此用户
         }
         int level = results.getInt("level");
+        Timestamp timestamp = results.getTimestamp("timestamp");
         statement.close();
         connection.close();
-        return new User(username, level);
+        return new User(username, level, timestamp);
     }
 
     public String getDBUsername() {
@@ -42,7 +47,8 @@ public class User {
             return ADMIN_USERNAME;
         return "unknown";
     }
-    public String getDBPassword(){
+
+    public String getDBPassword() {
         if (level == DEFAULT_USER)
             return DEFAULT_PASSWORD;
         else if (level == OPERATOR)
@@ -50,5 +56,13 @@ public class User {
         else if (level == ADMIN)
             return ADMIN_PASSWORD;
         return "unknown";
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }
