@@ -13,7 +13,7 @@ import com.zjquincy.ncu.net.request.IllegalRequestException;
 import com.zjquincy.ncu.net.NetUtility;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.zjquincy.ncu.Entry.gson;
@@ -46,6 +46,7 @@ public class Entry {
 }
 
 class ServerHandler implements HttpHandler { //服务器请求处理器
+    private static final SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String json_request = NetUtility.readRequest(exchange);//读取发送过来的json
@@ -56,8 +57,7 @@ class ServerHandler implements HttpHandler { //服务器请求处理器
         if (request_type == null) {
             throw new IllegalRequestException("未知的请求类型：" + request_type_raw);
         } else {
-            DateFormat dateFormat=DateFormat.getDateTimeInstance();
-            System.out.printf("[消息 %s] 接收到请求，类型为：%s\n", dateFormat.format(new Date()), request_type.getSimpleName());
+            System.out.printf("[消息 %s]接收到请求，类型为：%s\n", dateFormat.format(new Date()), request_type.getSimpleName());
             AbstractRequest request = gson.fromJson(json_request, request_type);
             //把Json反序列化为请求对象，具体的处理逻辑位于各自类的handle()方法里，这是多态的使用。
             request.handle(exchange);

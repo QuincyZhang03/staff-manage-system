@@ -2,12 +2,14 @@ package com.zjquincy.ncu.blockchain;
 
 import com.zjquincy.ncu.Entry;
 import com.zjquincy.ncu.data.IData;
+
 import java.util.List;
 import java.util.HashMap;
 
 public class BlockChain {
     private final HashMap<String, Block> data = new HashMap<>();
     private final GenesisBlock genesis;
+    private static final Object lock = new Object(); //线程锁，防止多个用户同时操作区块链
 
     public BlockChain(GenesisBlock genesis) {
         this.genesis = genesis;
@@ -18,11 +20,13 @@ public class BlockChain {
     }
 
     public void add(List<Transaction<IData>> message) {
-        PlainBlock block = new PlainBlock(System.currentTimeMillis(), genesis.prevBlockIdentifier, message);
-        genesis.prevBlockIdentifier = block.getIdentifier();
-        loadBlock(block);
-        BlockChainUtility.writeBlock(block, Entry.BLOCKCHAIN_DIR);//把新区块写进文件
-        BlockChainUtility.writeBlock(genesis, Entry.BLOCKCHAIN_DIR);//更新创世区块
+        synchronized (lock) {
+            PlainBlock block = new PlainBlock(System.currentTimeMillis(), genesis.prevBlockIdentifier, message);
+            genesis.prevBlockIdentifier = block.getIdentifier();
+            loadBlock(block);
+            BlockChainUtility.writeBlock(block, Entry.BLOCKCHAIN_DIR);//把新区块写进文件
+            BlockChainUtility.writeBlock(genesis, Entry.BLOCKCHAIN_DIR);//更新创世区块
+        }
     }
 
     public BlockChainIntegrity verify() {//检验区块链完整性，检验成功返回区块数量，失败返回-1
@@ -32,7 +36,7 @@ public class BlockChain {
             Block nextBlock = data.get(pointer);
             if (nextBlock != null) {//找到下一个区块，继续验证
                 verifiedBlockNum++;
-                pointer= nextBlock.prevBlockIdentifier;
+                pointer = nextBlock.prevBlockIdentifier;
             } else {//区块断裂，检验失败
                 return new BlockChainIntegrity(false, "未找到区块" + pointer + "，检验未通过！");
             }
