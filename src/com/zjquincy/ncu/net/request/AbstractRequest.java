@@ -1,7 +1,6 @@
 package com.zjquincy.ncu.net.request;
 
 import com.sun.net.httpserver.HttpExchange;
-
 import java.io.IOException;
 
 public abstract class AbstractRequest {
