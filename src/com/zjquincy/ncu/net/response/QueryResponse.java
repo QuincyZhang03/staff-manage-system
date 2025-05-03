@@ -21,12 +21,16 @@ public class QueryResponse extends AbstractResponse {
     @SerializedName("department")
     private ArrayList<Department> department;
 
-    public QueryResponse(boolean isSuccess) {
+    private QueryResponse(){
         response_type = "QUERY";
+    }
+    public QueryResponse(boolean isSuccess) {
+        this();
         this.isSuccess = isSuccess;
     }
 
     public QueryResponse(ArrayList<Staff> staffList, ArrayList<Department> departmentList) {
+        this();
         isSuccess = !(staffList.isEmpty() || departmentList.isEmpty());//有一个集合为空则查询失败
         staff = isSuccess ? staffList : null;
         department = isSuccess ? departmentList : null;

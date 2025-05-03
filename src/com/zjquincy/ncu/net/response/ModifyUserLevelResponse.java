@@ -10,8 +10,12 @@ import com.google.gson.annotations.SerializedName;
 public class ModifyUserLevelResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
-    public ModifyUserLevelResponse(String message) {
+
+    private ModifyUserLevelResponse(){
         response_type = "MODIFY_USER_LEVEL";
+    }
+    public ModifyUserLevelResponse(String message) {
+        this();
         this.message = message;
     }
 }

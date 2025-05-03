@@ -11,8 +11,11 @@ public class CreateResponse extends AbstractResponse {
     @SerializedName("message")
     private String message;
 
-    public CreateResponse(String message) {
+    private CreateResponse(){
         response_type = "CREATE";
+    }
+    public CreateResponse(String message) {
+        this();
         this.message = message;
     }
 }

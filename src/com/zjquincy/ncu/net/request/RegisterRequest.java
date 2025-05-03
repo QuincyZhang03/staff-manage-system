@@ -5,7 +5,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.zjquincy.ncu.access.SHA256;
 import com.zjquincy.ncu.net.NetUtility;
 import com.zjquincy.ncu.net.response.RegisterResponse;
-
 import java.io.IOException;
 import java.sql.*;
 

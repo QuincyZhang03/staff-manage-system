@@ -22,8 +22,11 @@ public class LoginResponse extends AbstractResponse {
         ERROR
     }
 
-    public LoginResponse(Result result) {
+    private LoginResponse(){
         response_type = "LOGIN";
+    }
+    public LoginResponse(Result result) {
+        this();
         message=result.name();
     }
 

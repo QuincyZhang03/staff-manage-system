@@ -10,8 +10,12 @@ import com.google.gson.annotations.SerializedName;
 public class DeleteUserResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
-    public DeleteUserResponse(String message) {
+
+    private DeleteUserResponse(){
         response_type = "DELETE_USER";
+    }
+    public DeleteUserResponse(String message) {
+        this();
         this.message = message;
     }
 }

@@ -17,8 +17,11 @@ public class ChangePasswordResponse extends AbstractResponse {
         ERROR
     }
 
-    public ChangePasswordResponse(Result result) {
+    private ChangePasswordResponse(){
         response_type = "CHANGE_PASSWORD";
+    }
+    public ChangePasswordResponse(Result result) {
+        this();
         message=result.name();
     }
 }

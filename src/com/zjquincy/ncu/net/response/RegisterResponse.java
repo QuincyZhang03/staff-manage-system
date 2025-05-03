@@ -17,8 +17,11 @@ public class RegisterResponse extends AbstractResponse {
         ERROR
     }
 
-    public RegisterResponse(Result result) {
+    private RegisterResponse(){
         response_type = "REGISTER";
+    }
+    public RegisterResponse(Result result) {
+        this();
         message=result.name();
     }
 }

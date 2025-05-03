@@ -11,8 +11,11 @@ public class UpdateResponse extends AbstractResponse {
     @SerializedName("message")
     private String message;
 
-    public UpdateResponse(String message) {
+    private UpdateResponse(){
         response_type = "UPDATE";
+    }
+    public UpdateResponse(String message) {
+        this();
         this.message = message;
     }
 }

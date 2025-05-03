@@ -10,8 +10,12 @@ import com.google.gson.annotations.SerializedName;
 public class ResetUserResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
-    public ResetUserResponse(String message) {
+
+    private ResetUserResponse(){
         response_type = "RESET_USER";
+    }
+    public ResetUserResponse(String message) {
+        this();
         this.message = message;
     }
 }
