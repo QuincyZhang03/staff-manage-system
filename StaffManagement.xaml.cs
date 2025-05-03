@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,17 +11,27 @@ namespace StaffManageSystemClient
         private readonly User user;
         private readonly ObservableCollection<Staff> staffList = new ObservableCollection<Staff>();
         private readonly ObservableCollection<Department> departmentList = new ObservableCollection<Department>();
+        private readonly ObservableCollection<UserData> userDataList = new ObservableCollection<UserData>();
         public StaffManagement()
         {
             InitializeComponent();
             UI_TabStaff_ListViewStaff.ItemsSource = staffList;
             UI_TabStaff_ListViewDepartment.ItemsSource = departmentList;
+            UI_TabStaff_ListViewUser.ItemsSource = userDataList;
         }
         public StaffManagement(User user) : this() //把用户信息当做参数传入，初始化用户信息
         {
             this.user = user;
             UI_TextUsername.Text = user.username;
-            UI_TextUserLevel.Text = user.GetLevelDisplay();
+            UI_TextUserLevel.Text = User.GetLevelDisplay(user.level);
+
+            UI_Tool_Create.IsEnabled = user.level >= User.OPERATOR;
+            UI_Tool_Edit.IsEnabled = user.level >= User.OPERATOR;
+            UI_Tool_Delete.IsEnabled = user.level >= User.OPERATOR;
+            UI_Tool_ResetUser.IsEnabled = user.level >= User.OPERATOR;
+            UI_Tool_ModifyUser.IsEnabled = user.level >= User.ADMIN;//只有超级管理员可以更改用户等级
+            UI_TabUser.Visibility = user.level >= User.OPERATOR ? Visibility.Visible : Visibility.Collapsed;
+            UI_TabCheckIntegrity.Visibility = user.level >= User.ADMIN ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void UI_Tool_Search_Click(object sender, RoutedEventArgs e)
@@ -51,6 +59,13 @@ namespace StaffManageSystemClient
                 {
                     departmentList.Add(d);
                     Department.departNames.Add(d.id, d.name);
+                }
+                if (response.user != null)
+                {
+                    foreach (UserData u in response.user)
+                    {
+                        userDataList.Add(u);
+                    }
                 }
             }
         }
@@ -113,7 +128,8 @@ namespace StaffManageSystemClient
             if (response == null)
             {
                 MessageBox.Show(this, "向服务器发送请求失败！", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }else if (response.message == null)
+            }
+            else if (response.message == null)
             {
                 MessageBox.Show(this, "响应异常", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -124,6 +140,12 @@ namespace StaffManageSystemClient
             else
                 UI_TextIntegrity.Foreground = Brushes.Red;
             UI_TextIntegrity.Text = response.message.metadata;
+        }
+
+        private void UI_Tool_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            new LoginWindow().Show();
+            Close();
         }
     }
 }

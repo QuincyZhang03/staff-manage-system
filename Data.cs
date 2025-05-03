@@ -43,5 +43,16 @@ namespace StaffManageSystemClient
             return departNames[id];
         }
     }
+    public class UserData
+    {
+        public readonly string username;
+        public readonly int level;
+        public readonly string password;
+
+        public string Username { get => username; }
+        public string Level { get => User.GetLevelDisplay(level); }
+        public string Password { get => password; }
+
+    }
 
 }

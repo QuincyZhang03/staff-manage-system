@@ -31,7 +31,7 @@ namespace StaffManageSystemClient
         public bool isLegal;
         public string metadata;
     }
-    class LoginResponse : AbstractResponse
+    class LoginResponse : AbstractResponse //注意这些请求的属性名必须与json中的一致
     {
         public string message;
         public User user_info;
@@ -45,6 +45,7 @@ namespace StaffManageSystemClient
         public bool isSuccess;
         public Staff[] staff;
         public Department[] department;
+        public UserData[] user;
     }
     class ChangePasswordResponse : AbstractResponse
     {

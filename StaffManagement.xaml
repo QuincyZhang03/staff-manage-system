@@ -17,54 +17,159 @@
         </Grid.ColumnDefinitions>
         <ToolBarTray Grid.Row="0" IsLocked="True">
             <ToolBar IsOverflowOpen="False">
-                <Button Padding="8,0" Name="UI_Tool_Search" Click="UI_Tool_Search_Click">
+                <Button Name="UI_Tool_Search" Click="UI_Tool_Search_Click" Padding="8,0">
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="/Resources/search.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="查询"/>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="查询数据"/>
                     </StackPanel>
                 </Button>
-                <Button Padding="8,0" >
+                <Button Name="UI_Tool_Create" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
-                            <Rectangle.Fill>
-                                <ImageBrush ImageSource="/Resources/create.png"/>
-                            </Rectangle.Fill>
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Create}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/create.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Create}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_create.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="新建"/>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="新建数据"/>
                     </StackPanel>
                 </Button>
-                <Button Padding="8,0" >
+                <Button Name="UI_Tool_Edit" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
-                            <Rectangle.Fill>
-                                <ImageBrush ImageSource="/Resources/edit.png"/>
-                            </Rectangle.Fill>
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Edit}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/edit.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Edit}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_edit.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="编辑"/>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="编辑数据"/>
                     </StackPanel>
                 </Button>
-                <Button Padding="8,0" >
+                <Button Name="UI_Tool_Delete" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
-                            <Rectangle.Fill>
-                                <ImageBrush ImageSource="/Resources/delete.png"/>
-                            </Rectangle.Fill>
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Delete}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/delete.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Delete}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_delete.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="删除"/>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="删除选中"/>
                     </StackPanel>
                 </Button>
-                <Button Padding="8,0" >
+                <Button Name="UI_Tool_ResetUser" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ResetUser}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/reset_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ResetUser}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_reset_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="重置密码"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_ModifyUser" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ModifyUser}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/modify_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ModifyUser}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_modify_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="更改等级"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_Logout" Click="UI_Tool_Logout_Click" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="/Resources/logout.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="注销"/>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="退出登录"/>
                     </StackPanel>
                 </Button>
             </ToolBar>
@@ -129,7 +234,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="职位" Width="120">
+                            <GridViewColumn Header="职位" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Position}" />
@@ -147,7 +252,7 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem>
+            <TabItem Name="UI_TabDepartment">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="部门信息" />
                 </TabItem.Header>
@@ -172,12 +277,39 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem>
+            <TabItem Name="UI_TabUser">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="用户管理" />
                 </TabItem.Header>
+                <ListView Name="UI_TabStaff_ListViewUser" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="用户名" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Username}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="密码密文" Width="500">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Password}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="等级" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Level}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
-            <TabItem>
+            <TabItem Name="UI_TabChangePassword">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="修改密码" />
                 </TabItem.Header>
@@ -203,7 +335,7 @@
                     <Button Click="UI_ButtonChangePassword_Click" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Name="UI_ButtonChangePassword" Content="修改密码" FontSize="20" Padding="20,7" />
                 </Grid>
             </TabItem>
-            <TabItem>
+            <TabItem Name="UI_TabCheckIntegrity">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="数据维护" />
                 </TabItem.Header>

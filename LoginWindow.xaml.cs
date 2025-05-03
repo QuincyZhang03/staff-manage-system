@@ -5,9 +5,9 @@ using System.Windows.Input;
 namespace StaffManageSystemClient
 {
 
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
             UI_TextboxLoginUsername.Focus();
@@ -54,6 +54,9 @@ namespace StaffManageSystemClient
                 else if (response.message == "SUCCESS")
                 {
                     MessageBox.Show(this, "注册成功！欢迎使用，" + username, "注册成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                    User user = new User(username, 0);
+                    new StaffManagement(user).Show();
+                    Close();//把该干的干完了再Close
                 }
                 else
                 {
