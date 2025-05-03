@@ -18,7 +18,7 @@ public class User {
     @SerializedName("password")
     private String password;
 
-    private final Timestamp timestamp;
+    private transient final Timestamp timestamp; //用transient标记的属性不会被反序列化
 
     public User(String username, int level, Timestamp timestamp, String password) {
         this.username = username;
