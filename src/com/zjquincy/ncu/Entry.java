@@ -1,6 +1,7 @@
 package com.zjquincy.ncu;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
@@ -31,7 +32,7 @@ public class Entry {
     public static final String OPERATOR_PASSWORD = "123456";
     public static final String ADMIN_USERNAME = "admin";//超级管理员
     public static final String ADMIN_PASSWORD = "123456";
-    public static Gson gson = new Gson();
+    public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();//指定日期格式，以规定格式序列化
     public static BlockChain blockChain;
 
     public static void main(String[] args) throws IOException {

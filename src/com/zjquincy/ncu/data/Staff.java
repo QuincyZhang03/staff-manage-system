@@ -1,7 +1,6 @@
 package com.zjquincy.ncu.data;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
