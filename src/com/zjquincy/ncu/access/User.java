@@ -17,8 +17,8 @@ public class User {
     private int level;
     @SerializedName("password")
     private String password;
-    @SerializedName("timestamp")
-    private final Timestamp timestamp; //transient字段会被gson忽略，不会被发送给客户端
+
+    private final Timestamp timestamp;
 
     public User(String username, int level, Timestamp timestamp, String password) {
         this.username = username;
@@ -26,6 +26,7 @@ public class User {
         this.timestamp = timestamp;
         this.password = password;
     }
+
 
     public static User fetchUser(String username) throws SQLException {
         Connection connection = DriverManager.getConnection(DB_URL, VISITOR_USERNAME, VISITOR_PASSWORD);
