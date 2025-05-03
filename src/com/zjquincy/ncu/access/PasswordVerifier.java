@@ -47,7 +47,8 @@ public class PasswordVerifier {
         String correct_password = results.getString("password");
         String encrypted_password = getEncryptedPassword(username, timestamp, input_password);
         if (encrypted_password.equalsIgnoreCase(correct_password)) {//密码正确，登录成功
-            User user = new User(username, results.getInt("level"),results.getTimestamp("timestamp"));
+            User user = new User(username, results.getInt("level"), null, null);
+            //对于普通用户，不返回注册时间戳和密码
             statement.close();
             connection.close();
             return new Result(ResultType.CORRECT, user);

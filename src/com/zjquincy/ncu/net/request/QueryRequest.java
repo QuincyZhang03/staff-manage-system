@@ -13,12 +13,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import static com.zjquincy.ncu.Entry.DB_URL;
+
 /*
  * 查询请求格式：
  * String request_type = "QUERY"
  * String username 用户名
  * */
-public class QueryRequest extends AbstractRequest{
+public class QueryRequest extends AbstractRequest {
 
     @SerializedName("username")
     private String username;
@@ -48,7 +49,20 @@ public class QueryRequest extends AbstractRequest{
                             departmentResult.getString("name"));
                     departmentList.add(department);
                 }
-                QueryResponse response = new QueryResponse(staffList, departmentList);
+                QueryResponse response;
+                if (user.getLevel() < User.OPERATOR) {//普通用户，不予查询用户列表，直接返回现有数据
+                    response = new QueryResponse(staffList, departmentList, null);
+                } else {//管理员或超级管理员，继续查询用户列表
+                    ResultSet userResult = statement.executeQuery("SELECT * FROM user");
+                    ArrayList<User> userList = new ArrayList<>();
+                    while (userResult.next()) {
+                        User userData = new User(userResult.getString("username"),
+                                userResult.getInt("level"), userResult.getTimestamp("timestamp"),
+                                userResult.getString("password"));
+                        userList.add(userData);
+                    }
+                    response = new QueryResponse(staffList, departmentList, userList);
+                }
                 NetUtility.sendResponse(exchange, response);
                 statement.close();
                 connection.close();
