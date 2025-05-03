@@ -15,13 +15,16 @@ public class User {
     private String username;
     @SerializedName("level")
     private int level;
+    @SerializedName("password")
+    private String password;
+    @SerializedName("timestamp")
+    private final Timestamp timestamp; //transient字段会被gson忽略，不会被发送给客户端
 
-    private final transient Timestamp timestamp; //transient字段会被gson忽略，不会被发送给客户端
-
-    public User(String username, int level, Timestamp timestamp) {
+    public User(String username, int level, Timestamp timestamp, String password) {
         this.username = username;
         this.level = level;
         this.timestamp = timestamp;
+        this.password = password;
     }
 
     public static User fetchUser(String username) throws SQLException {
@@ -33,9 +36,10 @@ public class User {
         }
         int level = results.getInt("level");
         Timestamp timestamp = results.getTimestamp("timestamp");
+        String password = results.getString("password");
         statement.close();
         connection.close();
-        return new User(username, level, timestamp);
+        return new User(username, level, timestamp, password);
     }
 
     public String getDBUsername() {

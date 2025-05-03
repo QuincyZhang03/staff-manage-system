@@ -12,7 +12,7 @@ import java.sql.*;
 import static com.zjquincy.ncu.Entry.*;
 
 /*
- * 登录请求Json格式：
+ * 修改密码请求Json格式：
  * String request_type = "CHANGE_PASSWORD"
  * String username 用户名
  * String old_password 旧密码明文

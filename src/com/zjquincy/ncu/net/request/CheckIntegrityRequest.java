@@ -7,7 +7,6 @@ import com.zjquincy.ncu.access.User;
 import com.zjquincy.ncu.blockchain.BlockChainIntegrity;
 import com.zjquincy.ncu.net.NetUtility;
 import com.zjquincy.ncu.net.response.CheckIntegrityResponse;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
