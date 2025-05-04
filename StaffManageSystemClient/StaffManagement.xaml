@@ -1,0 +1,370 @@
+﻿<Window x:Class="StaffManageSystemClient.StaffManagement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StaffManageSystemClient"
+        mc:Ignorable="d"
+        Title="人事管理系统" Name="UI_MainWindow" Height="450" Width="780" Left="400" Top="150" Loaded="UI_MainWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <ToolBarTray Grid.Row="0" IsLocked="True">
+            <ToolBar Name="UI_ToolBar" Loaded="UI_ToolBar_Loaded" IsOverflowOpen="False">
+                <ToolBar.Resources>
+                    <Style x:Key="ToolBarText" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontFamily" Value="微软雅黑" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </ToolBar.Resources>
+                    <Button Name="UI_Tool_Search" Click="UI_Tool_Search_Click" Padding="8,0">
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/Resources/search.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="查询数据"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_Create" Click="UI_Tool_Create_Click" IsEnabled="{Binding CanCreate,Mode=OneWay}" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Create}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/create.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Create}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_create.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="新建数据"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_Edit" Click="UI_Tool_Edit_Click" Padding="8,0" IsEnabled="{Binding CanEdit}" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Edit}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/edit.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Edit}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_edit.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="编辑数据"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_Delete" Click="UI_Tool_Delete_Click" IsEnabled="{Binding CanDelete}" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Delete}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/delete.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_Delete}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_delete.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="删除选中"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_ResetUser" Click="UI_Tool_ResetUser_Click" IsEnabled="{Binding UserSelected}" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ResetUser}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/reset_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ResetUser}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_reset_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="重置密码"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_ModifyUser" Click="UI_Tool_ModifyUser_Click" IsEnabled="{Binding UserSelected}" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ModifyUser}" Value="True">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/modify_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=UI_Tool_ModifyUser}" Value="False">
+                                            <Setter Property="Fill">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="/Resources/disabled_modify_user.png"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="更改等级"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_Logout" Click="UI_Tool_Logout_Click" Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/Resources/logout.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="退出登录"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_About" Click="UI_Tool_About_Click"  Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/Resources/about.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="关于程序"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid Background="Beige" Grid.Row="0" Grid.Column="1">
+            <TextBlock Padding="5,0,0,0" VerticalAlignment="Center" FontSize="13" >
+                <Run FontWeight="Bold">用户名：</Run>
+                <Run Name="UI_TextUsername">123456789012345</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">用户等级：</Run>
+                <Run Name="UI_TextUserLevel">超级管理员</Run>
+            </TextBlock>
+        </Grid>
+        <TabControl Name="UI_Tab" SelectionChanged="UI_Tab_SelectionChanged"  Grid.Row="1" Grid.ColumnSpan="2">
+            <TabItem Name="UI_TabStaff">
+                <TabItem.Header>
+                    <TextBlock Margin="10,3" FontSize="13" Text="员工信息" />
+                </TabItem.Header>
+                <ListView Name="UI_TabStaff_ListViewStaff">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="编号" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Id}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="姓名" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="性别" Width="30">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Gender}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="出生日期" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Birthday}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="电话" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Telephone}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="部门" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DepartmentDisplayName}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="职位" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Position}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="月薪" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Salary}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="UI_TabDepartment">
+                <TabItem.Header>
+                    <TextBlock Margin="10,3" FontSize="13" Text="部门信息" />
+                </TabItem.Header>
+                <ListView Name="UI_TabStaff_ListViewDepartment">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="编号" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Id}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="部门名称" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="UI_TabUser">
+                <TabItem.Header>
+                    <TextBlock Margin="10,3" FontSize="13" Text="用户管理" />
+                </TabItem.Header>
+                <ListView Name="UI_TabStaff_ListViewUser" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="用户名" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Username}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="密码密文" Width="500">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Password}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="等级" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Level}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="UI_TabChangePassword">
+                <TabItem.Header>
+                    <TextBlock Margin="10,3" FontSize="13" Text="修改密码" />
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="旧密码" FontSize="25" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="新密码" FontSize="25" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="重复密码" FontSize="25" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold" />
+                    <PasswordBox Grid.Row="0" Grid.Column="2" Height="30" FontSize="20" VerticalAlignment="Center" Margin="30,0" KeyDown="UI_ChangePassword_KeyDown" Name="UI_TextBoxOldPassword" />
+                    <PasswordBox Grid.Row="1" Grid.Column="2" Height="30" FontSize="20" VerticalAlignment="Center" Margin="30,0" KeyDown="UI_ChangePassword_KeyDown" Name="UI_TextBoxNewPassword" />
+                    <PasswordBox Grid.Row="2" Grid.Column="2" Height="30" FontSize="20" VerticalAlignment="Center" Margin="30,0" KeyDown="UI_ChangePassword_KeyDown" Name="UI_TextBoxRepeatNewPassword" />
+                    <Button Click="UI_ButtonChangePassword_Click" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Name="UI_ButtonChangePassword" Content="修改密码" FontSize="20" Padding="20,7" />
+                </Grid>
+            </TabItem>
+            <TabItem Name="UI_TabCheckIntegrity">
+                <TabItem.Header>
+                    <TextBlock Margin="10,3" FontSize="13" Text="数据维护" />
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Name="UI_ButtonCheckIntegrity" Content="验证区块链完整性" Click="UI_ButtonCheckIntegrity_Click" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Padding="15,10" FontSize="25"/>
+                    <TextBlock Grid.Row="1" Name="UI_TextIntegrity" VerticalAlignment="Top"  HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" TextWrapping="Wrap"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
