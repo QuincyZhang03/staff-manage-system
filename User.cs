@@ -13,9 +13,11 @@ namespace StaffManageSystemClient
         public const int OPERATOR = 1;
         [ScriptIgnore]
         public const int ADMIN = 2;
+        [ScriptIgnore]
+        public static readonly int[] AVAILABLE_LEVELS = { 0, 1, 2 };
 
         public User() { }//反序列化需要有一个无参构造方法
-        
+
         public User(string username, int level)
         {
             this.username = username;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
-        Title="人事管理系统" Height="450" Width="780" Left="500" Top="150">
+        Title="人事管理系统" Name="UI_MainWindow" Height="450" Width="780" Left="400" Top="150" Loaded="UI_MainWindow_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="55"/>
@@ -16,18 +16,25 @@
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <ToolBarTray Grid.Row="0" IsLocked="True">
-            <ToolBar IsOverflowOpen="False">
-                <Button Name="UI_Tool_Search" Click="UI_Tool_Search_Click" Padding="8,0">
+            <ToolBar Name="UI_ToolBar" Loaded="UI_ToolBar_Loaded" IsOverflowOpen="False">
+                <ToolBar.Resources>
+                    <Style x:Key="ToolBarText" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontFamily" Value="微软雅黑" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </ToolBar.Resources>
+                    <Button Name="UI_Tool_Search" Click="UI_Tool_Search_Click" Padding="8,0">
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="/Resources/search.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="查询数据"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="查询数据"/>
                     </StackPanel>
                 </Button>
-                <Button Name="UI_Tool_Create" Padding="8,0" >
+                <Button Name="UI_Tool_Create" Click="UI_Tool_Create_Click" IsEnabled="{Binding CanCreate,Mode=OneWay}" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Style>
@@ -51,10 +58,10 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="新建数据"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="新建数据"/>
                     </StackPanel>
                 </Button>
-                <Button Name="UI_Tool_Edit" Padding="8,0" >
+                <Button Name="UI_Tool_Edit" Click="UI_Tool_Edit_Click" Padding="8,0" IsEnabled="{Binding CanEdit}" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Style>
@@ -78,10 +85,10 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="编辑数据"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="编辑数据"/>
                     </StackPanel>
                 </Button>
-                <Button Name="UI_Tool_Delete" Padding="8,0" >
+                <Button Name="UI_Tool_Delete" Click="UI_Tool_Delete_Click" IsEnabled="{Binding CanDelete}" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Style>
@@ -105,10 +112,10 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="删除选中"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="删除选中"/>
                     </StackPanel>
                 </Button>
-                <Button Name="UI_Tool_ResetUser" Padding="8,0" >
+                <Button Name="UI_Tool_ResetUser" Click="UI_Tool_ResetUser_Click" IsEnabled="{Binding UserSelected}" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Style>
@@ -132,10 +139,10 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="重置密码"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="重置密码"/>
                     </StackPanel>
                 </Button>
-                <Button Name="UI_Tool_ModifyUser" Padding="8,0" >
+                <Button Name="UI_Tool_ModifyUser" Click="UI_Tool_ModifyUser_Click" IsEnabled="{Binding UserSelected}" Padding="8,0" >
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Style>
@@ -159,7 +166,7 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="更改等级"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="更改等级"/>
                     </StackPanel>
                 </Button>
                 <Button Name="UI_Tool_Logout" Click="UI_Tool_Logout_Click" Padding="8,0" >
@@ -169,7 +176,17 @@
                                 <ImageBrush ImageSource="/Resources/logout.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock HorizontalAlignment="Center" FontFamily="16" Text="退出登录"/>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="退出登录"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="UI_Tool_About" Click="UI_Tool_About_Click"  Padding="8,0" >
+                    <StackPanel>
+                        <Rectangle Height="30" Width="30" >
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/Resources/about.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Style="{StaticResource ResourceKey=ToolBarText}" Text="关于程序"/>
                     </StackPanel>
                 </Button>
             </ToolBar>
@@ -183,7 +200,7 @@
                 <Run Name="UI_TextUserLevel">超级管理员</Run>
             </TextBlock>
         </Grid>
-        <TabControl Grid.Row="1" Grid.ColumnSpan="2">
+        <TabControl Name="UI_Tab" SelectionChanged="UI_Tab_SelectionChanged"  Grid.Row="1" Grid.ColumnSpan="2">
             <TabItem Name="UI_TabStaff">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="员工信息" />
@@ -230,7 +247,7 @@
                             <GridViewColumn Header="部门" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Department}" />
+                                        <TextBlock Text="{Binding DepartmentDisplayName}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -266,7 +283,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="名称" Width="200">
+                            <GridViewColumn Header="部门名称" Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />

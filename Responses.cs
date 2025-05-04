@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 
 namespace StaffManageSystemClient
 {
@@ -23,6 +22,18 @@ namespace StaffManageSystemClient
                 return NetUtility.serilizer.Deserialize<ChangePasswordResponse>(json);
             else if (response_type == "CHECK_INTEGRITY")
                 return NetUtility.serilizer.Deserialize<CheckIntegrityResponse>(json);
+            else if (response_type == "RESET_USER")
+                return NetUtility.serilizer.Deserialize<ResetUserResponse>(json);
+            else if (response_type == "DELETE_USER")
+                return NetUtility.serilizer.Deserialize<DeleteUserResponse>(json);
+            else if (response_type == "DELETE")
+                return NetUtility.serilizer.Deserialize<DeleteResponse>(json);
+            else if (response_type == "MODIFY_USER_LEVEL")
+                return NetUtility.serilizer.Deserialize<ModifyUserLevelResponse>(json);
+            else if (response_type == "CREATE")
+                return NetUtility.serilizer.Deserialize<CreateResponse>(json);
+            else if (response_type == "UPDATE")
+                return NetUtility.serilizer.Deserialize<UpdateResponse>(json);
             return null;
         }
     }
@@ -54,5 +65,29 @@ namespace StaffManageSystemClient
     class CheckIntegrityResponse : AbstractResponse
     {
         public BlockChainIntegrity message;
+    }
+    class ResetUserResponse : AbstractResponse
+    {
+        public string message;
+    }
+    class DeleteUserResponse : AbstractResponse
+    {
+        public string message;
+    }
+    class DeleteResponse : AbstractResponse
+    {
+        public string message;
+    }
+    class ModifyUserLevelResponse : AbstractResponse
+    {
+        public string message;
+    }
+    class CreateResponse : AbstractResponse
+    {
+        public string message;
+    }
+    class UpdateResponse : AbstractResponse
+    {
+        public string message;
     }
 }

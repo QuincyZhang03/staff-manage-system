@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 
@@ -110,12 +111,6 @@ namespace StaffManageSystemClient
         private void UI_Login_KeyDown(object sender, KeyEventArgs e)
         {
             var key = e.Key;
-            if (key == Key.F7)//debug
-            {
-                UI_TextboxLoginUsername.Text = "quincyzhang";
-                UI_TextboxLoginPassword.Password = "Zhangjian5e";
-                UI_ButtonLogin_Click(sender, e);
-            }
             if (key == Key.Enter)
             {
                 UI_ButtonLogin_Click(sender, e);

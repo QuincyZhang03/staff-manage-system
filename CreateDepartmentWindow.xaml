@@ -1,0 +1,60 @@
+﻿<Window x:Class="StaffManageSystemClient.CreateDepartmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StaffManageSystemClient"
+        mc:Ignorable="d"
+        Title="新建部门" Height="200" Width="580">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.RowSpan="2">
+            <StackPanel Orientation="Horizontal" Margin="10,25,10,10">
+                <TextBlock Text="编号" FontSize="20" />
+                <TextBox Name="UI_TextBoxID" Margin="10,0,0,0" Width="200" FontSize="15" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,10">
+                <TextBlock Text="名称" FontSize="20" />
+                <TextBox Name="UI_TextBoxName" Margin="10,0,0,0" Width="200" FontSize="15" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0">
+            <Button Name="UI_ButtonAdd" Click="UI_ButtonAdd_Click" Content="添加" FontSize="15" Padding="0,5"/>
+            <Rectangle Fill="Transparent" Height="20" />
+            <Button Name="UI_ButtonDelete" Click="UI_ButtonDelete_Click" Content="删除" FontSize="15" IsEnabled="False"  Padding="0,5" />
+
+        </StackPanel>
+
+        <ListView Name="UI_ListViewDepartment" SelectionMode="Single" SelectionChanged="UI_ListViewDepartment_SelectionChanged" Grid.Row="0" Grid.Column="2" Margin="0,0,20,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="编号" Width="50">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Id}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="部门名称" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="UI_ButtonCommit" Click="UI_ButtonCommit_Click" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Content="提交" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Padding="18,7" />
+    </Grid>
+</Window>
