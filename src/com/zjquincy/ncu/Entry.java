@@ -48,6 +48,7 @@ public class Entry {
 
 class ServerHandler implements HttpHandler { //服务器请求处理器
     private static final SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //用于后台展示请求时间
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String json_request = NetUtility.readRequest(exchange);//读取发送过来的json

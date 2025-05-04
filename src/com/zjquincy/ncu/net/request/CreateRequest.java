@@ -10,6 +10,7 @@ import com.zjquincy.ncu.data.IData;
 import com.zjquincy.ncu.data.Staff;
 import com.zjquincy.ncu.net.NetUtility;
 import com.zjquincy.ncu.net.response.CreateResponse;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,13 +53,17 @@ public class CreateRequest extends AbstractRequest {
                     for (String json : dataList) {
                         IData data = Entry.gson.fromJson(json, dataType);//用对应的类反序列化成对应类的对象
                         if (data != null) {
-                            int result = data.create(connection);
-                            if (result == 1) {
-                                inserted++;
-                                //插入成功的操作要上链
-                                transactions.add(new Transaction<>(Transaction.TransactionType.CREATE, null, data));
-                            } else {
-                                failMessage.append("插入失败：").append(data).append("\n");
+                            try {
+                                if (data.create(connection) == 1) {
+                                    inserted++;
+                                    //插入成功的操作要上链
+                                    transactions.add(new Transaction<>(Transaction.TransactionType.CREATE, null, data));
+                                } else {
+                                    failMessage.append("插入失败：").append(data).append("\n未知原因\n");
+                                }
+                            } catch (SQLException sqlException) {//插入出错的不能阻塞整个请求
+                                failMessage.append("插入失败：").append(data)
+                                        .append("\n原因：").append(sqlException.getMessage()).append("\n");
                             }
                         }
                     }
@@ -67,7 +72,7 @@ public class CreateRequest extends AbstractRequest {
                         NetUtility.sendResponse(exchange, new CreateResponse(String.format("插入%d条数据成功！", inserted)));
                     } else {//有插入失败的数据
                         NetUtility.sendResponse(exchange, new CreateResponse(
-                                String.format("本次插入成功%d条数据，有%d条插入失败。\n失败信息：%s",
+                                String.format("本次插入成功%d条数据，有%d条插入失败。\n失败信息如下：\n%s",
                                         inserted, dataList.length - inserted, failMessage)));
                     }
                 }

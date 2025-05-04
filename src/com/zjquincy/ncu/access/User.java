@@ -1,7 +1,6 @@
 package com.zjquincy.ncu.access;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.sql.*;
 
 import static com.zjquincy.ncu.Entry.*;

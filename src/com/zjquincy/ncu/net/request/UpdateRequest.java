@@ -10,6 +10,7 @@ import com.zjquincy.ncu.data.IData;
 import com.zjquincy.ncu.data.Staff;
 import com.zjquincy.ncu.net.NetUtility;
 import com.zjquincy.ncu.net.response.UpdateResponse;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -53,13 +54,18 @@ public class UpdateRequest extends AbstractRequest {
                         IData prev = Entry.gson.fromJson(pair[0], dataType);
                         IData after = Entry.gson.fromJson(pair[1], dataType);
                         if (prev != null && after != null) {
-                            int result = prev.update(connection, after);
-                            if (result == 1) {
-                                inserted++;
-                                //插入成功的操作要上链
-                                transactions.add(new Transaction<>(Transaction.TransactionType.UPDATE, prev, after));
-                            } else {
-                                failMessage.append("修改失败：").append(prev).append(" -> ").append(after).append("\n");
+                            try {
+                                if (prev.update(connection, after) == 1) {
+                                    inserted++;
+                                    //更改成功的操作要上链
+                                    transactions.add(new Transaction<>(Transaction.TransactionType.UPDATE, prev, after));
+                                } else {
+                                    failMessage.append("修改失败：").append(prev).append(" -> ").append(after)
+                                            .append("\n未知原因。\n");
+                                }
+                            } catch (SQLException sqlException) {//更改出错的不能阻塞整个请求
+                                failMessage.append("修改失败：").append(prev).append(" -> ").append(after)
+                                        .append("\n原因：").append(sqlException.getMessage()).append("\n");
                             }
                         }
                     }
@@ -68,7 +74,7 @@ public class UpdateRequest extends AbstractRequest {
                         NetUtility.sendResponse(exchange, new UpdateResponse(String.format("修改%d条数据成功！", inserted)));
                     } else {//有插入失败的数据
                         NetUtility.sendResponse(exchange, new UpdateResponse(
-                                String.format("本次修改成功%d条数据，有%d条修改失败。\n失败信息：%s",
+                                String.format("本次修改成功%d条数据，有%d条修改失败。\n失败信息如下：\n%s",
                                         inserted, dataList.length - inserted, failMessage)));
                     }
                 }
