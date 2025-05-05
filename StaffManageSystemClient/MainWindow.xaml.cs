@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,6 +20,7 @@ namespace StaffManageSystemClient
         private readonly ObservableCollection<Staff> staffList = new ObservableCollection<Staff>();
         private readonly ObservableCollection<Department> departmentList = new ObservableCollection<Department>();
         private readonly ObservableCollection<UserData> userDataList = new ObservableCollection<UserData>();
+        private bool closed;
 
         private bool _canCreate;
         public bool CanCreate
@@ -475,20 +478,36 @@ namespace StaffManageSystemClient
         private void UI_MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UI_Tool_Refresh_Click(sender, e);//加载完成后自动查询
+            new Thread(new ThreadStart(() =>
+            {
+                while (!closed)
+                {
+                    UI_TextTime.Dispatcher.Invoke(new Action(() =>
+                    {
+                        UI_TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    }));
+                    Thread.Sleep(300);
+                }
+            })).Start();
         }
 
         private void UI_Tool_About_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(this, "本套软件开发者为南昌大学计算机科学与技术211班张健\n（学号6109121013），用于本人毕业设计。","关于",MessageBoxButton.OK,MessageBoxImage.Information);
+            MessageBox.Show(this, "本套软件开发者为南昌大学计算机科学与技术211班张健\n（学号6109121013），用于本人毕业设计。", "关于", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void UI_ToolBar_Loaded(object sender, RoutedEventArgs e)//移除溢出小箭头
         {
-            FrameworkElement overflowGrid=UI_ToolBar.Template.FindName("OverflowGrid",UI_ToolBar) as FrameworkElement;
-            if(overflowGrid != null)
+            FrameworkElement overflowGrid = UI_ToolBar.Template.FindName("OverflowGrid", UI_ToolBar) as FrameworkElement;
+            if (overflowGrid != null)
             {
                 overflowGrid.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void UI_MainWindow_Closed(object sender, EventArgs e)
+        {
+            closed = true;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
-        Title="新建部门" Height="200" Width="580">
+        Title="新建部门" Height="200" Width="580" ResizeMode="CanMinimize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

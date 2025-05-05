@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
-        Title="人事管理系统" Name="UI_MainWindow" Height="450" Width="780" Left="400" Top="150" Loaded="UI_MainWindow_Loaded">
+        Title="人事管理系统" Name="UI_MainWindow" Height="450" Width="840" Left="400" Top="150" ResizeMode="CanMinimize" Loaded="UI_MainWindow_Loaded" Closed="UI_MainWindow_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="55"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ToolBarTray Grid.Row="0" IsLocked="True">
             <ToolBar Name="UI_ToolBar" Loaded="UI_ToolBar_Loaded" IsOverflowOpen="False">
@@ -24,7 +24,7 @@
                         <Setter Property="HorizontalAlignment" Value="Center" />
                     </Style>
                 </ToolBar.Resources>
-                    <Button Name="UI_Tool_Refresh" Click="UI_Tool_Refresh_Click" Padding="8,0">
+                <Button Name="UI_Tool_Refresh" Click="UI_Tool_Refresh_Click" Padding="8,0">
                     <StackPanel>
                         <Rectangle Height="30" Width="30" >
                             <Rectangle.Fill>
@@ -198,6 +198,9 @@
                 <LineBreak/>
                 <Run FontWeight="Bold">用户等级：</Run>
                 <Run Name="UI_TextUserLevel">超级管理员</Run>
+                <LineBreak />
+                <Run FontWeight="Bold">当前时间：</Run>
+                <Run Name="UI_TextTime"></Run>
             </TextBlock>
         </Grid>
         <TabControl Name="UI_Tab" SelectionChanged="UI_Tab_SelectionChanged"  Grid.Row="1" Grid.ColumnSpan="2">
@@ -208,7 +211,7 @@
                 <ListView Name="UI_TabStaff_ListViewStaff">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="编号" Width="50">
+                            <GridViewColumn Header="编号" Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Id}" />
@@ -216,7 +219,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="姓名" Width="100">
+                            <GridViewColumn Header="姓名" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />
