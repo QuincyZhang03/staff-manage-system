@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 
@@ -123,6 +122,11 @@ namespace StaffManageSystemClient
             {
                 UI_ButtonReg_Click(sender, e);
             }
+        }
+
+        private void UI_TextBoxServerAddress_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            AbstractRequest.URL = UI_TextBoxServerAddress.Text+"/api/staff";
         }
     }
 }
