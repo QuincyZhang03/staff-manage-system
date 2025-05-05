@@ -23,7 +23,7 @@ public class NetUtility {
         //200表示OK，写入长度是字节数，不是字符数
         OutputStream os = exchange.getResponseBody();
         os.write(json_response.getBytes(StandardCharsets.UTF_8));
-        System.out.printf("%d号请求响应成功：%s\n", requestID, response.getLogMessage());
+        System.out.printf("%d号请求响应成功：%s\n\n", requestID, response.getLogMessage());
         os.close();
     }
 }
