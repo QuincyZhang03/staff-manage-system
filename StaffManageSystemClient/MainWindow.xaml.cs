@@ -9,7 +9,7 @@ using System.Windows.Media;
 namespace StaffManageSystemClient
 {
 
-    public partial class StaffManagement : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,7 +64,7 @@ namespace StaffManageSystemClient
         }
 
 
-        public StaffManagement()
+        public MainWindow()
         {
             InitializeComponent();
             UI_TabStaff_ListViewStaff.ItemsSource = staffList;
@@ -72,7 +72,7 @@ namespace StaffManageSystemClient
             UI_TabStaff_ListViewUser.ItemsSource = userDataList;
             UI_ToolBar.DataContext = this;
         }
-        public StaffManagement(User user) : this() //把用户信息当做参数传入，初始化用户信息
+        public MainWindow(User user) : this() //把用户信息当做参数传入，初始化用户信息
         {
             this.user = user;
             UI_TextUsername.Text = user.username;
@@ -85,7 +85,7 @@ namespace StaffManageSystemClient
             UI_TabUser.Visibility = user.level >= User.OPERATOR ? Visibility.Visible : Visibility.Collapsed;
             UI_TabCheckIntegrity.Visibility = user.level >= User.ADMIN ? Visibility.Visible : Visibility.Collapsed;
         }
-        private void UI_Tool_Search_Click(object sender, RoutedEventArgs e)
+        private void UI_Tool_Refresh_Click(object sender, RoutedEventArgs e)
         {
             staffList.Clear();
             departmentList.Clear();
@@ -219,7 +219,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "重置结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//重置结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//重置结束后重新查询
                     }
                 }
             }
@@ -261,7 +261,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "删除结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//重置结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//重置结束后重新查询
                     }
                 }
             }
@@ -286,7 +286,7 @@ namespace StaffManageSystemClient
                         else
                         {
                             MessageBox.Show(this, response.message, "删除结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                            UI_Tool_Search_Click(sender, e);//重置结束后重新查询
+                            UI_Tool_Refresh_Click(sender, e);//重置结束后重新查询
                         }
                     }
                 }
@@ -317,7 +317,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "删除结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//删除结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//删除结束后重新查询
                     }
                 }
             }
@@ -367,7 +367,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "创建结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//创建结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//创建结束后重新查询
                     }
                 }
             }
@@ -396,7 +396,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "创建结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//创建结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//创建结束后重新查询
                     }
                 }
             }
@@ -433,7 +433,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "创建结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//创建结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//创建结束后重新查询
                     }
                 }
 
@@ -467,7 +467,7 @@ namespace StaffManageSystemClient
                     else
                     {
                         MessageBox.Show(this, response.message, "创建结果", MessageBoxButton.OK, MessageBoxImage.Information);
-                        UI_Tool_Search_Click(sender, e);//创建结束后重新查询
+                        UI_Tool_Refresh_Click(sender, e);//创建结束后重新查询
                     }
                 }
             }
@@ -475,7 +475,7 @@ namespace StaffManageSystemClient
 
         private void UI_MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            UI_Tool_Search_Click(sender, e);//加载完成后自动查询
+            UI_Tool_Refresh_Click(sender, e);//加载完成后自动查询
         }
 
         private void UI_Tool_About_Click(object sender, RoutedEventArgs e)

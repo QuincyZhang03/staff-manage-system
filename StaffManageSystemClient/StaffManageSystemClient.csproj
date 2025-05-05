@@ -80,8 +80,8 @@
     </Compile>
     <Compile Include="Requests.cs" />
     <Compile Include="Responses.cs" />
-    <Compile Include="StaffManagement.xaml.cs">
-      <DependentUpon>StaffManagement.xaml</DependentUpon>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
     <Page Include="CreateDepartmentWindow.xaml">
@@ -116,7 +116,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StaffManagement.xaml">
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

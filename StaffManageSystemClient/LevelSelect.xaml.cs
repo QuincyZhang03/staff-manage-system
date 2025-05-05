@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace StaffManageSystemClient
 {
@@ -54,6 +55,14 @@ namespace StaffManageSystemClient
             selectedLevel = ((LevelItem)UI_ComboBoxLevel.SelectedItem).level;
             changed = selectedLevel != originalLevel;
             UI_ButtonCommit.IsEnabled = selectedLevel != originalLevel;
+        }
+
+        private void UI_PasswordKey_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UI_ButtonCommit_Click(sender, e);
+            }
         }
     }
     public class LevelItem

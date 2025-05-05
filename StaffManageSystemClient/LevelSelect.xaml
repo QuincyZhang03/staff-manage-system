@@ -30,7 +30,7 @@
         <Rectangle Fill="Transparent" Height="20" />
         <StackPanel Orientation="Horizontal">
             <TextBlock Margin="20,0,0,0" FontSize="16" Text="敏感权限秘钥：" />
-            <PasswordBox Name="UI_PasswordKey" Margin="10,0,0,0" Width="150"/>
+            <PasswordBox Name="UI_PasswordKey" KeyDown="UI_PasswordKey_KeyDown" Margin="10,0,0,0" Width="150"/>
         </StackPanel>
         <Rectangle Fill="Transparent" Height="20" />
         <Button Name="UI_ButtonCommit" Click="UI_ButtonCommit_Click" Height="25" Width="80" Content="提交更改" FontSize="13" />

@@ -25,11 +25,13 @@ namespace StaffManageSystemClient
     abstract class AbstractRequest
     {
         private static readonly WebClient webClient = new WebClient();
-        public static string URL = "http://localhost:23456/api/staff";
+        public static string URL = "localhost:23456";
         public AbstractResponse CommitRequest()//向服务器提交请求
         {
             if (!URL.StartsWith("http://"))
                 URL = "http://" + URL;
+            if (URL.EndsWith("/api/staff"))
+                URL += "/api/staff";
             webClient.Headers.Set(HttpRequestHeader.ContentType, "application/json; charset=UTF-8");
             try
             {

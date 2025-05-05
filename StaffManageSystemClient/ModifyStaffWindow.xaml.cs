@@ -3,6 +3,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
+using System.Text.RegularExpressions;
 
 
 
@@ -60,7 +61,8 @@ namespace StaffManageSystemClient
             string position = UI_TextBoxPosition.Text;
             double salary;
 
-            if (telephone.Length != 11)
+            Regex telephoneRegex = new Regex(@"^1\d{10}$");
+            if (!telephoneRegex.IsMatch(telephone))
             {
                 MessageBox.Show(this, "电话号码格式有误！", "输入有误", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;

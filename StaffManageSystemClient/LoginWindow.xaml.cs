@@ -10,6 +10,7 @@ namespace StaffManageSystemClient
         public LoginWindow()
         {
             InitializeComponent();
+            UI_TextBoxServerAddress.Text=AbstractRequest.URL;            
             UI_TextboxLoginUsername.Focus();
         }
 
@@ -55,7 +56,7 @@ namespace StaffManageSystemClient
                 {
                     MessageBox.Show(this, "注册成功！欢迎使用，" + username, "注册成功", MessageBoxButton.OK, MessageBoxImage.Information);
                     User user = new User(username, 0);
-                    new StaffManagement(user).Show();
+                    new MainWindow(user).Show();
                     Close();//把该干的干完了再Close
                 }
                 else
@@ -97,7 +98,7 @@ namespace StaffManageSystemClient
                 {
                     User user = response.user_info;
                     MessageBox.Show(this, "登录成功！欢迎您，" + user.username, "登录成功", MessageBoxButton.OK, MessageBoxImage.Information);
-                    new StaffManagement(user).Show();
+                    new MainWindow(user).Show();
                     Close();//把该干的干完了再Close
                 }
                 else
