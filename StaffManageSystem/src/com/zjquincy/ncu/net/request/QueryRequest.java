@@ -26,10 +26,11 @@ public class QueryRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的查询请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             if (user == null) {
-                NetUtility.sendResponse(exchange, new QueryResponse(false));
+                NetUtility.sendResponse(exchange, new QueryResponse(false),requestID);
             } else {
                 Connection connection = DriverManager.getConnection(DB_URL, user.getDBUsername(), user.getDBPassword());
                 Statement statement = connection.createStatement();
@@ -63,12 +64,12 @@ public class QueryRequest extends AbstractRequest {
                     }
                     response = new QueryResponse(staffList, departmentList, userList);
                 }
-                NetUtility.sendResponse(exchange, response);
+                NetUtility.sendResponse(exchange, response,requestID);
                 statement.close();
                 connection.close();
             }
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new QueryResponse(false));
+            NetUtility.sendResponse(exchange, new QueryResponse(false),requestID);
             throw new RuntimeException("服务器端执行数据库操作出现异常：" + e.getMessage());
         }
     }

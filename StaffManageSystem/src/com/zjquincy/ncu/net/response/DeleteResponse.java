@@ -11,6 +11,11 @@ public class DeleteResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     private DeleteResponse(){
         response_type = "DELETE";
     }

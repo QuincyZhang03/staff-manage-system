@@ -17,6 +17,11 @@ public class RegisterResponse extends AbstractResponse {
         ERROR
     }
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     private RegisterResponse(){
         response_type = "REGISTER";
     }

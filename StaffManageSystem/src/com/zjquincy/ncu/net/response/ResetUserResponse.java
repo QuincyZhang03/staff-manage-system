@@ -11,6 +11,11 @@ public class ResetUserResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     private ResetUserResponse(){
         response_type = "RESET_USER";
     }

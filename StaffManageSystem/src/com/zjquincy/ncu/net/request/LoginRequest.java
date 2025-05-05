@@ -23,20 +23,21 @@ public class LoginRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的登录请求\n",requestID, username);
         try {
             PasswordVerifier.Result result = PasswordVerifier.verifyPassword(username, input_password);
             if (result.getType() == PasswordVerifier.ResultType.NO_SUCH_USER) {//无此用户
-                NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.NO_SUCH_USER));
+                NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.NO_SUCH_USER),requestID);
             } else {//用户名存在，则现场对用户输入信息按照“用户名@时间戳@密码明文”的格式使用SHA-256加密，比对结果
                 if (result.getType()== PasswordVerifier.ResultType.CORRECT) {//密码正确，登录成功
                     User user = result.getUser();
-                    NetUtility.sendResponse(exchange, new LoginResponse(user)); //把用户信息一并返回给客户端
+                    NetUtility.sendResponse(exchange, new LoginResponse(user),requestID); //把用户信息一并返回给客户端
                 } else {//密码错误
-                    NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.WRONG_PASSWORD));
+                    NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.WRONG_PASSWORD),requestID);
                 }
             }
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.ERROR));
+            NetUtility.sendResponse(exchange, new LoginResponse(LoginResponse.Result.ERROR),requestID);
             throw new RuntimeException("服务器端执行数据库操作出现异常：" + e.getMessage());
         }
     }

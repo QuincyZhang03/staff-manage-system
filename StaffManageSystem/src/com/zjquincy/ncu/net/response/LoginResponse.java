@@ -15,6 +15,11 @@ public class LoginResponse extends AbstractResponse {
     @SerializedName("user_info")
     private User user_info;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     public enum Result {
         NO_SUCH_USER,
         WRONG_PASSWORD,

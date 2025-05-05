@@ -35,16 +35,17 @@ public class UpdateRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的更新数据请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             if (user == null) {
-                NetUtility.sendResponse(exchange, new UpdateResponse("未找到用户：" + username));//一般情况下不会出现这种情况
+                NetUtility.sendResponse(exchange, new UpdateResponse("未找到用户：" + username),requestID);//一般情况下不会出现这种情况
             } else if (user.getLevel() < User.OPERATOR) {//用户权限不足
-                NetUtility.sendResponse(exchange, new UpdateResponse("权限不足！"));
+                NetUtility.sendResponse(exchange, new UpdateResponse("权限不足！"),requestID);
             } else {//解析出修改数据的类型
                 Class<? extends IData> dataType = getDataType();
                 if (dataType == null) {
-                    NetUtility.sendResponse(exchange, new UpdateResponse("数据类型解析失败：" + type));
+                    NetUtility.sendResponse(exchange, new UpdateResponse("数据类型解析失败：" + type),requestID);
                 } else {//数据类型合法，开始修改
                     Connection connection = DriverManager.getConnection(Entry.DB_URL, user.getDBUsername(), user.getDBPassword());
                     int inserted = 0;
@@ -71,17 +72,17 @@ public class UpdateRequest extends AbstractRequest {
                     }
                     Entry.blockChain.add(transactions);//把本次插入操作上链，打包成新的区块
                     if (inserted == dataList.length) {
-                        NetUtility.sendResponse(exchange, new UpdateResponse(String.format("修改%d条数据成功！", inserted)));
+                        NetUtility.sendResponse(exchange, new UpdateResponse(String.format("修改%d条数据成功！", inserted)),requestID);
                     } else {//有插入失败的数据
                         NetUtility.sendResponse(exchange, new UpdateResponse(
                                 String.format("本次修改成功%d条数据，有%d条修改失败。\n失败信息如下：\n%s",
-                                        inserted, dataList.length - inserted, failMessage)));
+                                        inserted, dataList.length - inserted, failMessage)),requestID);
                     }
                 }
             }
 
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new UpdateResponse("未知错误：\n" + e.getMessage()));
+            NetUtility.sendResponse(exchange, new UpdateResponse("未知错误：\n" + e.getMessage()),requestID);
             throw new RuntimeException(e);
         }
     }

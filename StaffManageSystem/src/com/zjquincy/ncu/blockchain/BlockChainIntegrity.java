@@ -17,4 +17,10 @@ public class BlockChainIntegrity {//区块链验证结果，可以返回给客�
         this.isLegal = isLegal;
         this.metadata = metadata;
     }
+
+    @Override
+    public String toString() {
+        System.out.println("metadata = " + metadata);
+        return "isLegal = " + isLegal +" , metadata = " + metadata;
+    }
 }
