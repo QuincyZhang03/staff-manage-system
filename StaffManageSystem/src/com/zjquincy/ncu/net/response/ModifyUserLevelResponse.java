@@ -11,6 +11,11 @@ public class ModifyUserLevelResponse extends AbstractResponse{
     @SerializedName("message")
     private String message;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     private ModifyUserLevelResponse(){
         response_type = "MODIFY_USER_LEVEL";
     }

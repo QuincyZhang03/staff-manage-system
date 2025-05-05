@@ -12,6 +12,11 @@ public class CheckIntegrityResponse extends AbstractResponse {
     @SerializedName("message")
     private BlockChainIntegrity message;
 
+    @Override
+    public String getLogMessage() {
+        return message.toString();
+    }
+
     private CheckIntegrityResponse(){
         response_type = "CHECK_INTEGRITY";
     }

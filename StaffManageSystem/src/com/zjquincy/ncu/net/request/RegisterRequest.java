@@ -28,6 +28,7 @@ public class RegisterRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的注册请求\n",requestID, username);
         try {
             Connection connection = DriverManager.getConnection(DB_URL, VISITOR_USERNAME, VISITOR_PASSWORD);
             Statement statement = connection.createStatement();
@@ -45,18 +46,18 @@ public class RegisterRequest extends AbstractRequest {
                 sql.setString(3, encrypted_password);
                 int result = sql.executeUpdate();
                 if (result == 1) {//注册成功
-                    NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.SUCCESS));
+                    NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.SUCCESS),requestID);
                 } else {
-                    NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.ERROR));
+                    NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.ERROR),requestID);
                 }
                 sql.close();
             } else {//用户名已存在，不予注册
-                NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.USER_ALREADY_EXISTS));
+                NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.USER_ALREADY_EXISTS),requestID);
             }
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.ERROR));
+            NetUtility.sendResponse(exchange, new RegisterResponse(RegisterResponse.Result.ERROR),requestID);
             throw new RuntimeException("服务器端执行数据库操作出现异常：" + e.getMessage());
         }
     }

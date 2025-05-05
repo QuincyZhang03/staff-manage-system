@@ -35,16 +35,17 @@ public class DeleteRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的删除数据请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             if (user == null) {
-                NetUtility.sendResponse(exchange, new DeleteResponse("未找到用户：" + username));//一般情况下不会出现这种情况
+                NetUtility.sendResponse(exchange, new DeleteResponse("未找到用户：" + username),requestID);//一般情况下不会出现这种情况
             } else if (user.getLevel() < User.OPERATOR) {//用户权限不足
-                NetUtility.sendResponse(exchange, new DeleteResponse("权限不足！"));
+                NetUtility.sendResponse(exchange, new DeleteResponse("权限不足！"),requestID);
             } else {//解析出新增数据的类型
                 Class<? extends IData> dataType = getDataType();
                 if (dataType == null) {
-                    NetUtility.sendResponse(exchange, new DeleteResponse("数据类型解析失败：" + type));
+                    NetUtility.sendResponse(exchange, new DeleteResponse("数据类型解析失败：" + type),requestID);
                 } else {//数据类型合法，开始删除
                     Connection connection = DriverManager.getConnection(Entry.DB_URL, user.getDBUsername(), user.getDBPassword());
                     int deleted = 0;
@@ -64,17 +65,17 @@ public class DeleteRequest extends AbstractRequest {
                     }
                     Entry.blockChain.add(transactions);//把本次插入操作上链，打包成新的区块
                     if (deleted == dataList.length) {
-                        NetUtility.sendResponse(exchange, new DeleteResponse(String.format("删除%d条数据成功！", deleted)));
-                    } else {//有插入失败的数据
+                        NetUtility.sendResponse(exchange, new DeleteResponse(String.format("删除%d条数据成功！", deleted)),requestID);
+                    } else {//有删除失败的数据
                         NetUtility.sendResponse(exchange, new DeleteResponse(
                                 String.format("本次删除成功%d条数据，有%d条删除失败。\n失败信息：%s",
-                                        deleted, dataList.length - deleted, failMessage)));
+                                        deleted, dataList.length - deleted, failMessage)),requestID);
                     }
                 }
             }
 
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new DeleteResponse("未知错误：\n" + e.getMessage()));
+            NetUtility.sendResponse(exchange, new DeleteResponse("未知错误：\n" + e.getMessage()),requestID);
             throw new RuntimeException(e);
         }
     }

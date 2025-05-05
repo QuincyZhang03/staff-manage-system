@@ -1,9 +1,17 @@
 package com.zjquincy.ncu.net.request;
 
 import com.sun.net.httpserver.HttpExchange;
+
 import java.io.IOException;
 
 public abstract class AbstractRequest {
+    private static int requestNum = 1;
+    protected int requestID;
+
+    protected AbstractRequest(){
+        requestID = requestNum;
+        requestNum++;
+    }
 
     public static Class<? extends AbstractRequest> convertType(String raw) {
         return switch (raw) {

@@ -5,4 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public abstract class AbstractResponse {
     @SerializedName("response_type")
     protected String response_type;
+
+    public abstract String getLogMessage();
 }

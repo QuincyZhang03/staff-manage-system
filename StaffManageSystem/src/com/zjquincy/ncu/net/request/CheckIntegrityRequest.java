@@ -21,21 +21,22 @@ public class CheckIntegrityRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的验证区块链完整性请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             if (user == null) {//此处是未获取到用户，理论上不会发生这种情况
                 NetUtility.sendResponse(exchange,
-                        new CheckIntegrityResponse(new BlockChainIntegrity(false, "用户未找到！")));
+                        new CheckIntegrityResponse(new BlockChainIntegrity(false, "用户未找到！")),requestID);
             } else if (user.getLevel() < User.ADMIN) {//非超级管理员，不予执行
                 NetUtility.sendResponse(exchange,
-                        new CheckIntegrityResponse(new BlockChainIntegrity(false, "权限不足！")));
+                        new CheckIntegrityResponse(new BlockChainIntegrity(false, "权限不足！")),requestID);
             } else {
                 BlockChainIntegrity result = Entry.blockChain.verify();
-                NetUtility.sendResponse(exchange, new CheckIntegrityResponse(result));
+                NetUtility.sendResponse(exchange, new CheckIntegrityResponse(result),requestID);
             }
         } catch (SQLException e) {
             NetUtility.sendResponse(exchange, new CheckIntegrityResponse(
-                    new BlockChainIntegrity(false, "未知错误！\n" + e.getMessage())));
+                    new BlockChainIntegrity(false, "未知错误！\n" + e.getMessage())),requestID);
             throw new RuntimeException(e);
         }
     }

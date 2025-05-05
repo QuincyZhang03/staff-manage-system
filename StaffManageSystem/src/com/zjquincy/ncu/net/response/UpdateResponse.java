@@ -11,6 +11,11 @@ public class UpdateResponse extends AbstractResponse {
     @SerializedName("message")
     private String message;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     private UpdateResponse(){
         response_type = "UPDATE";
     }

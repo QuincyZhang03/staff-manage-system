@@ -11,6 +11,11 @@ public class ChangePasswordResponse extends AbstractResponse {
     @SerializedName("message")
     private String message;
 
+    @Override
+    public String getLogMessage() {
+        return message;
+    }
+
     public enum Result {
         WRONG_OLD_PASSWORD,
         SUCCESS,

@@ -27,18 +27,19 @@ public class ResetUserRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的重置用户密码请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             User resetUser = User.fetchUser(to_reset);
             if (user == null) {
-                NetUtility.sendResponse(exchange, new ResetUserResponse("未找到用户：" + username));//一般情况下不会出现这种情况
+                NetUtility.sendResponse(exchange, new ResetUserResponse("未找到用户：" + username),requestID);//一般情况下不会出现这种情况
             } else if (resetUser == null) {
-                NetUtility.sendResponse(exchange, new ResetUserResponse("未找到用户：" + to_reset));
+                NetUtility.sendResponse(exchange, new ResetUserResponse("未找到用户：" + to_reset),requestID);
             } else if (user.getLevel() < User.OPERATOR) {//用户权限不足，不能重置其他用户密码
-                NetUtility.sendResponse(exchange, new ResetUserResponse("权限不足！"));
+                NetUtility.sendResponse(exchange, new ResetUserResponse("权限不足！"),requestID);
             } else if (user.getLevel() <= resetUser.getLevel()) {//只能上重置下
                 NetUtility.sendResponse(exchange, new ResetUserResponse(
-                        String.format("%s(等级%d)的权限等级不低于您，不能重置ta的密码", to_reset, resetUser.getLevel())));
+                        String.format("%s(等级%d)的权限等级不低于您，不能重置ta的密码", to_reset, resetUser.getLevel())),requestID);
             } else {//将用户密码重置为123456
                 Connection connection = DriverManager.getConnection(DB_URL, user.getDBUsername(), user.getDBPassword());
                 PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE username=?");
@@ -46,15 +47,15 @@ public class ResetUserRequest extends AbstractRequest {
                 statement.setString(1, encryptedPassword);
                 statement.setString(2, to_reset);
                 if (statement.executeUpdate() == 1) {//如果修改了超过1个用户，也叫发生错误了
-                    NetUtility.sendResponse(exchange, new ResetUserResponse("重置成功！"));
+                    NetUtility.sendResponse(exchange, new ResetUserResponse("重置成功！"),requestID);
                 } else {
-                    NetUtility.sendResponse(exchange, new ResetUserResponse("重置失败！"));
+                    NetUtility.sendResponse(exchange, new ResetUserResponse("重置失败！"),requestID);
                 }
                 statement.close();
                 connection.close();
             }
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new ResetUserResponse("未知错误：" + e.getMessage()));
+            NetUtility.sendResponse(exchange, new ResetUserResponse("未知错误：" + e.getMessage()),requestID);
             throw new RuntimeException(e);
         }
     }

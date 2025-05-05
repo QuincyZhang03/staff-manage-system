@@ -34,6 +34,11 @@ public class QueryResponse extends AbstractResponse {
         this.isSuccess = isSuccess;
     }
 
+    @Override
+    public String getLogMessage() {
+        return isSuccess + "";
+    }
+
     public QueryResponse(ArrayList<Staff> staffList, ArrayList<Department> departmentList, ArrayList<User> user) {
         this();
         isSuccess = !(staffList.isEmpty() || departmentList.isEmpty());//有一个集合为空则查询失败

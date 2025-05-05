@@ -34,14 +34,15 @@ public class ModifyUserLevelRequest extends AbstractRequest {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.printf("请求编号%d解析成功：来自%s的更改用户等级请求\n",requestID, username);
         try {
             User user = User.fetchUser(username);
             if (user == null) {
-                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("未找到用户：" + username));//一般情况下不会出现这种情况
+                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("未找到用户：" + username),requestID);//一般情况下不会出现这种情况
             } else if (user.getLevel() < User.ADMIN) {//只有超级管理员才能变更用户等级
-                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("权限不足！"));
+                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("权限不足！"),requestID);
             } else if (!key.equals(KEYCODE)) {
-                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("敏感权限密钥错误！"));
+                NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("敏感权限密钥错误！"),requestID);
             } else {
                 Connection connection = DriverManager.getConnection(Entry.DB_URL, user.getDBUsername(), user.getDBPassword());
                 PreparedStatement statement = connection.prepareStatement("UPDATE user SET level=? WHERE username=?");
@@ -49,13 +50,13 @@ public class ModifyUserLevelRequest extends AbstractRequest {
                 statement.setString(2, to_modify);
                 int result = statement.executeUpdate();
                 if (result == 1) {
-                    NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("更改用户等级成功！"));
+                    NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("更改用户等级成功！"),requestID);
                 } else {
-                    NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("更改用户等级失败！"));
+                    NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("更改用户等级失败！"),requestID);
                 }
             }
         } catch (SQLException e) {
-            NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("未知错误：" + e.getMessage()));
+            NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("未知错误：" + e.getMessage()),requestID);
             throw new RuntimeException(e);
         }
     }
