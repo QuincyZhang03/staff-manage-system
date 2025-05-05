@@ -11,7 +11,6 @@ namespace StaffManageSystemClient
         private readonly ObservableCollection<LevelItem> items = new ObservableCollection<LevelItem>();
         private readonly Dictionary<int, LevelItem> levelMap = new Dictionary<int, LevelItem>();
 
-        public bool changed = false;
         public int selectedLevel;
         public string key;
 
@@ -53,7 +52,6 @@ namespace StaffManageSystemClient
         private void UI_ComboBoxLevel_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             selectedLevel = ((LevelItem)UI_ComboBoxLevel.SelectedItem).level;
-            changed = selectedLevel != originalLevel;
             UI_ButtonCommit.IsEnabled = selectedLevel != originalLevel;
         }
 

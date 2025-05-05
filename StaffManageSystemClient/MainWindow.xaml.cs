@@ -299,8 +299,7 @@ namespace StaffManageSystemClient
             if (selectedUser != null)
             {
                 LevelSelect levelSelect = new LevelSelect(this, selectedUser.Username, selectedUser.level);
-                levelSelect.ShowDialog();
-                if (levelSelect.changed)
+                if ((bool)levelSelect.ShowDialog())
                 {
                     int newLevel = levelSelect.selectedLevel;
                     string key = levelSelect.key;
