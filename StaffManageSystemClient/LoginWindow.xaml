@@ -16,7 +16,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="服务器地址" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Blue"/>
-        <TextBox Name="UI_TextBoxServerAddress" TextChanged="UI_TextBoxServerAddress_TextChanged" Grid.Row="0" Grid.Column="1" Height="22" Margin="10,0"  Text="localhost:23456" FontSize="13" Foreground="Blue" VerticalContentAlignment="Center"/>
+        <TextBox Name="UI_TextBoxServerAddress" Grid.Row="0" Grid.Column="1" Height="22" Margin="10,0"  Text="localhost:23456" FontSize="13" Foreground="Blue" VerticalContentAlignment="Center"/>
         <TabControl Grid.Row="1" Grid.ColumnSpan="2" Name="UI_TabLogin">
             <TabItem Name="UI_TabLogin_TabItemLogin">
                 <TabItem.Header>

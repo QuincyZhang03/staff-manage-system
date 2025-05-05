@@ -25,19 +25,21 @@ namespace StaffManageSystemClient
     abstract class AbstractRequest
     {
         private static readonly WebClient webClient = new WebClient();
-        public static string URL = "localhost:23456";
+        public static string IPAddress = "localhost:23456";
+
         public AbstractResponse CommitRequest()//向服务器提交请求
         {
-            if (!URL.StartsWith("http://"))
-                URL = "http://" + URL;
-            if (URL.EndsWith("/api/staff"))
-                URL += "/api/staff";
+            string serverURI=IPAddress;
+            if (!serverURI.StartsWith("http://"))
+                serverURI = "http://" + serverURI;
+            if (!serverURI.EndsWith("/api/staff"))
+                serverURI += "/api/staff";
             webClient.Headers.Set(HttpRequestHeader.ContentType, "application/json; charset=UTF-8");
             try
             {
                 string rawjson = NetUtility.SerializeRequest(this);
                 byte[] bytesToSend = Encoding.UTF8.GetBytes(rawjson);
-                byte[] response_data = webClient.UploadData(URL, "POST", bytesToSend);
+                byte[] response_data = webClient.UploadData(serverURI, "POST", bytesToSend);
                 string response_json = Encoding.UTF8.GetString(response_data);
                 return AbstractResponse.ParseResponse(response_json);
             }

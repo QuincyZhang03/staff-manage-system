@@ -10,12 +10,13 @@ namespace StaffManageSystemClient
         public LoginWindow()
         {
             InitializeComponent();
-            UI_TextBoxServerAddress.Text=AbstractRequest.URL;            
+            UI_TextBoxServerAddress.Text=AbstractRequest.IPAddress;            
             UI_TextboxLoginUsername.Focus();
         }
 
         private void UI_ButtonReg_Click(object sender, RoutedEventArgs e)//注册
         {
+            AbstractRequest.IPAddress = UI_TextBoxServerAddress.Text;
             string username = UI_TextboxRegUsername.Text;
             string password = UI_TextboxRegPassword.Password;
             string repeat_password = UI_TextboxRegRepeatPassword.Password;
@@ -68,6 +69,7 @@ namespace StaffManageSystemClient
 
         private void UI_ButtonLogin_Click(object sender, RoutedEventArgs e)//登录
         {
+            AbstractRequest.IPAddress = UI_TextBoxServerAddress.Text;
             string username = UI_TextboxLoginUsername.Text;
             string password = UI_TextboxLoginPassword.Password;
             if (username.Length == 0 || password.Length == 0)
@@ -123,11 +125,6 @@ namespace StaffManageSystemClient
             {
                 UI_ButtonReg_Click(sender, e);
             }
-        }
-
-        private void UI_TextBoxServerAddress_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            AbstractRequest.URL = UI_TextBoxServerAddress.Text+"/api/staff";
         }
     }
 }
