@@ -42,7 +42,7 @@ public class ResetUserRequest extends AbstractRequest {
                         String.format("%s(等级%d)的权限等级不低于您，不能重置ta的密码", to_reset, resetUser.getLevel())),requestID);
             } else {//将用户密码重置为123456
                 Connection connection = DriverManager.getConnection(DB_URL, user.getDBUsername(), user.getDBPassword());
-                PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE username=?");
+                PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE BINARY username=?");
                 String encryptedPassword = PasswordVerifier.getEncryptedPassword(to_reset, resetUser.getTimestamp(), DEFAULT_PASSWORD);
                 statement.setString(1, encryptedPassword);
                 statement.setString(2, to_reset);

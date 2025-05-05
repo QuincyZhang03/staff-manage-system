@@ -40,7 +40,7 @@ public class ChangePasswordRequest extends AbstractRequest {
                 User user = result.getUser();
                 Connection connection = DriverManager.getConnection(DB_URL, user.getDBUsername(), user.getDBPassword());
                 String encryptedPassword = PasswordVerifier.getEncryptedPassword(username, result.getUser().getTimestamp(), new_password);
-                PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE username=?");
+                PreparedStatement statement = connection.prepareStatement("UPDATE visitor SET password=? WHERE BINARY username=?");
                 statement.setString(1, encryptedPassword);
                 statement.setString(2, username);
                 if (statement.executeUpdate() == 1) {

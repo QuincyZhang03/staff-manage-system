@@ -32,7 +32,7 @@ public class RegisterRequest extends AbstractRequest {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, VISITOR_USERNAME, VISITOR_PASSWORD);
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(String.format("SELECT * FROM user WHERE username=\"%s\"", username));
+            ResultSet results = statement.executeQuery(String.format("SELECT * FROM user WHERE BINARY username=\"%s\"", username));
             if (!results.next()) {//无此用户，可以注册
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 timestamp.setNanos(0);//注册时间戳这里非常重要：MySQL里不能存小数点后面的，一定要删掉

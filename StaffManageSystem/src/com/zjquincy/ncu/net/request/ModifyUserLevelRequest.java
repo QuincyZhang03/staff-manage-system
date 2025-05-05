@@ -45,7 +45,7 @@ public class ModifyUserLevelRequest extends AbstractRequest {
                 NetUtility.sendResponse(exchange, new ModifyUserLevelResponse("敏感权限密钥错误！"),requestID);
             } else {
                 Connection connection = DriverManager.getConnection(Entry.DB_URL, user.getDBUsername(), user.getDBPassword());
-                PreparedStatement statement = connection.prepareStatement("UPDATE user SET level=? WHERE username=?");
+                PreparedStatement statement = connection.prepareStatement("UPDATE user SET level=? WHERE BINARY username=?");
                 statement.setInt(1, new_level);
                 statement.setString(2, to_modify);
                 int result = statement.executeUpdate();

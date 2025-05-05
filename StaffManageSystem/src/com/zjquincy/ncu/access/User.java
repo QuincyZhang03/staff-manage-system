@@ -30,7 +30,7 @@ public class User {
     public static User fetchUser(String username) throws SQLException {
         Connection connection = DriverManager.getConnection(DB_URL, VISITOR_USERNAME, VISITOR_PASSWORD);
         Statement statement = connection.createStatement();
-        ResultSet results = statement.executeQuery(String.format("SELECT * FROM user WHERE username=\"%s\"", username));
+        ResultSet results = statement.executeQuery(String.format("SELECT * FROM user WHERE BINARY username=\"%s\"", username));
         if (!results.next()) {
             return null;//无此用户
         }

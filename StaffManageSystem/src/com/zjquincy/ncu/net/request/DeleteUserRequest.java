@@ -38,7 +38,7 @@ public class DeleteUserRequest extends AbstractRequest {
                         String.format("%s(等级%d)的权限等级不低于您，不能删除它的信息", to_delete, deletedUser.getLevel())),requestID);
             } else {
                 Connection connection = DriverManager.getConnection(Entry.DB_URL, user.getDBUsername(), user.getDBPassword());
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM visitor WHERE username=?");
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM visitor WHERE BINARY username=?");
                 statement.setString(1, to_delete);
                 int result = statement.executeUpdate();
                 if (result == 1) {
