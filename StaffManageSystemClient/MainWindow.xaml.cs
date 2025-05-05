@@ -10,18 +10,9 @@ using System.Windows.Media;
 
 namespace StaffManageSystemClient
 {
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    class ToolController : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly User user;
-        private readonly ObservableCollection<Staff> staffList = new ObservableCollection<Staff>();
-        private readonly ObservableCollection<Department> departmentList = new ObservableCollection<Department>();
-        private readonly ObservableCollection<UserData> userDataList = new ObservableCollection<UserData>();
-        private bool closed;
-
         private bool _canCreate;
         public bool CanCreate
         {
@@ -65,7 +56,16 @@ namespace StaffManageSystemClient
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserSelected)));
             }
         }
-
+    }
+    public partial class MainWindow : Window
+    {
+        private readonly User user;
+        private readonly ObservableCollection<Staff> staffList = new ObservableCollection<Staff>();
+        private readonly ObservableCollection<Department> departmentList = new ObservableCollection<Department>();
+        private readonly ObservableCollection<UserData> userDataList = new ObservableCollection<UserData>();
+        private bool closed;
+        private readonly ToolController toolController;
+        
 
         public MainWindow()
         {
@@ -73,7 +73,8 @@ namespace StaffManageSystemClient
             UI_TabStaff_ListViewStaff.ItemsSource = staffList;
             UI_TabStaff_ListViewDepartment.ItemsSource = departmentList;
             UI_TabStaff_ListViewUser.ItemsSource = userDataList;
-            UI_ToolBar.DataContext = this;
+            toolController = new ToolController();
+            UI_ToolBar.DataContext = toolController;
         }
         public MainWindow(User user) : this() //把用户信息当做参数传入，初始化用户信息
         {
@@ -333,13 +334,13 @@ namespace StaffManageSystemClient
             int selectedDepartmentCount = UI_TabStaff_ListViewDepartment.SelectedItems.Count;
             bool selectedUser = UI_TabStaff_ListViewUser.SelectedItem != null;
 
-            CanCreate = UI_Tab.SelectedItem == UI_TabStaff || UI_Tab.SelectedItem == UI_TabDepartment;
-            CanDelete =
+            toolController.CanCreate = UI_Tab.SelectedItem == UI_TabStaff || UI_Tab.SelectedItem == UI_TabDepartment;
+            toolController.CanDelete =
                 (UI_Tab.SelectedItem == UI_TabStaff && selectedStaffCount > 0) ||
                 (UI_Tab.SelectedItem == UI_TabDepartment && selectedDepartmentCount > 0) ||
                 (UI_Tab.SelectedItem == UI_TabUser && selectedUser);
-            CanEdit = UI_Tab.SelectedItem == UI_TabStaff || UI_Tab.SelectedItem == UI_TabDepartment;
-            UserSelected = UI_Tab.SelectedItem == UI_TabUser && selectedUser;
+            toolController.CanEdit = UI_Tab.SelectedItem == UI_TabStaff || UI_Tab.SelectedItem == UI_TabDepartment;
+            toolController.UserSelected = UI_Tab.SelectedItem == UI_TabUser && selectedUser;
         }
 
         private void UI_Tool_Create_Click(object sender, RoutedEventArgs e)
