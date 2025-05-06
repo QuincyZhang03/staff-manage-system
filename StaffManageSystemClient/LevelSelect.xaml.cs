@@ -45,6 +45,7 @@ namespace StaffManageSystemClient
             else
             {
                 key = UI_PasswordKey.Password;
+                DialogResult = true;
                 Close();
             }
         }
