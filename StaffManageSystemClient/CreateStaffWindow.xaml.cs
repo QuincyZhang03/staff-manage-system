@@ -22,6 +22,7 @@ namespace StaffManageSystemClient
                     UI_ComboBoxBirthMonth.Items.Add("0" + i);
                 else
                     UI_ComboBoxBirthMonth.Items.Add(i.ToString());
+            UI_ComboBoxBirthYear.SelectedItem = "1970";
         }
         public CreateStaffWindow(Window owner, ObservableCollection<Department> departmentList) : this()
         {
