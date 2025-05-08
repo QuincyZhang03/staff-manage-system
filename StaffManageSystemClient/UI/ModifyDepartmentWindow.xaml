@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
-        Title="编辑部门" Height="230" Width="480" ResizeMode="CanMinimize">
+        Title="编辑部门" Height="230" Width="480" ResizeMode="CanMinimize" Icon="/Resources/edit.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

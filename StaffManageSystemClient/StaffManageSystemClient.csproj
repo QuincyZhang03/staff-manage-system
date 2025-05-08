@@ -62,41 +62,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateDepartmentWindow.xaml.cs">
+    <Compile Include="UI\CreateDepartmentWindow.xaml.cs">
       <DependentUpon>CreateDepartmentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateStaffWindow.xaml.cs">
+    <Compile Include="UI\CreateStaffWindow.xaml.cs">
       <DependentUpon>CreateStaffWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data.cs" />
-    <Compile Include="LevelSelect.xaml.cs">
+    <Compile Include="Communication\Data.cs" />
+    <Compile Include="UI\LevelSelect.xaml.cs">
       <DependentUpon>LevelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModifyDepartmentWindow.xaml.cs">
+    <Compile Include="UI\ModifyDepartmentWindow.xaml.cs">
       <DependentUpon>ModifyDepartmentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModifyStaffWindow.xaml.cs">
+    <Compile Include="UI\ModifyStaffWindow.xaml.cs">
       <DependentUpon>ModifyStaffWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Requests.cs" />
-    <Compile Include="Responses.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Communication\Requests.cs" />
+    <Compile Include="Communication\Responses.cs" />
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
-    <Page Include="CreateDepartmentWindow.xaml">
+    <Compile Include="Communication\User.cs" />
+    <Page Include="UI\CreateDepartmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreateStaffWindow.xaml">
+    <Page Include="UI\CreateStaffWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LevelSelect.xaml">
+    <Page Include="UI\LevelSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="UI\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -104,19 +104,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="UI\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ModifyDepartmentWindow.xaml">
+    <Page Include="UI\ModifyDepartmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ModifyStaffWindow.xaml">
+    <Page Include="UI\ModifyStaffWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

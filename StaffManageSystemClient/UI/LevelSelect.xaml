@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
-        Title="选择等级" Height="200" Width="320" ResizeMode="CanMinimize">
+        Title="选择等级" Height="200" Width="320" ResizeMode="CanMinimize" Icon="/Resources/modify_user.png">
     <StackPanel VerticalAlignment="Center">
         <TextBlock HorizontalAlignment="Center" FontSize="16">请选择用户 <Run Name="UI_TextUsername" Foreground="Blue" FontWeight="Bold" /> 的新等级</TextBlock>
         <Rectangle Fill="Transparent" Height="20" />

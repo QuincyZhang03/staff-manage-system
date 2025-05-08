@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StaffManageSystemClient"
         mc:Ignorable="d"
         Title="人事管理系统" Name="UI_MainWindow" Height="450" Width="840" Left="400" Top="150" ResizeMode="CanMinimize" Loaded="UI_MainWindow_Loaded" Closed="UI_MainWindow_Closed">
-    <Grid>
+    <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="55"/>
             <RowDefinition />
@@ -203,7 +203,7 @@
                 <Run Name="UI_TextTime"></Run>
             </TextBlock>
         </Grid>
-        <TabControl Name="UI_Tab" SelectionChanged="UI_Tab_SelectionChanged"  Grid.Row="1" Grid.ColumnSpan="2">
+        <TabControl Name="UI_Tab" SelectionChanged="UI_Tab_SelectionChanged"  Grid.Row="1" Grid.ColumnSpan="2" Background="AliceBlue">
             <TabItem Name="UI_TabStaff">
                 <TabItem.Header>
                     <TextBlock Margin="10,3" FontSize="13" Text="员工信息" />
